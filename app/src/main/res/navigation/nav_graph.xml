@@ -12,17 +12,17 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_HomeFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_HomeFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.securechatapplication.SecondFragment"
+        android:id="@+id/MessagesFragment"
+        android:name="com.example.securechatapplication.MessagesFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_messages">
 
         <action
-            android:id="@+id/action_SecondFragment_to_HomeFragment"
+            android:id="@+id/action_MessagesFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
     </fragment>
 </navigation>
