@@ -10,6 +10,6 @@ The final group project for 3A04. Designing a prototype for a secure chat applic
 
 ## To do list:
 ### Ahren:
-- Create basic landing page UI
+- ~~Create basic landing page UI~~
 - Create the calling UI (Will not be functional)
 - Create the mediated authenciation protocol

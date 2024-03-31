@@ -48,4 +48,5 @@
     <string name="Messages">Messages</string>
     <string name="Account">Account</string>
     <string name="Survey">Survey</string>
+    <string name="Home_Title">Home Page</string>
 </resources>
