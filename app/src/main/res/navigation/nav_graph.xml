@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_HomeFragment_to_MessagesFragment"
             app:destination="@id/MessagesFragment" />
+
+        <action
+            android:id="@+id/action_HomeFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
     </fragment>
     <fragment
         android:id="@+id/MessagesFragment"
@@ -23,6 +27,17 @@
 
         <action
             android:id="@+id/action_MessagesFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CallingFragment"
+        android:name="com.example.securechatapplication.CallingFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_call">
+
+        <action
+            android:id="@+id/action_CallingFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
     </fragment>
 </navigation>
