@@ -18,7 +18,7 @@
             android:id="@+id/button_end_call"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginTop="320dp"
+            android:layout_marginTop="392dp"
             android:text="@string/End_Call"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -26,32 +26,31 @@
             app:layout_constraintTop_toBottomOf="@+id/calling_someone_title" />
 
         <Button
+            android:id="@+id/button_speaker"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginTop="212dp"
+            android:text="@string/Speaker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calling_someone_title" />
+
+        <Button
             android:id="@+id/button_mute"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginTop="140dp"
             android:text="@string/Mute"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calling_someone_title" />
 
         <Button
-            android:id="@+id/button_speaker"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="108dp"
-            android:text="@string/Speaker"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calling_someone_title" />
-
-        <Button
             android:id="@+id/button_record"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginEnd="24dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginTop="140dp"
+            android:layout_marginEnd="32dp"
             android:text="@string/Record"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calling_someone_title" />
@@ -60,14 +59,14 @@
             android:id="@+id/calling_someone_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="64dp"
             android:text="@string/Calling_Someone"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="60sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -11,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.securechatapplication.databinding.FragmentCallingSomeoneBinding;
 
+import java.util.Objects;
+
 public class CallingPersonFragment extends Fragment {
 
     private FragmentCallingSomeoneBinding binding;
@@ -22,6 +24,9 @@ public class CallingPersonFragment extends Fragment {
     ) {
 
         binding = FragmentCallingSomeoneBinding.inflate(inflater, container, false);
+
+        requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
+        requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
         return binding.getRoot();
 
     }

@@ -25,6 +25,10 @@ public class CallingFragment extends Fragment {
     ) {
 
         binding = FragmentCallBinding.inflate(inflater, container, false);
+
+        requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.VISIBLE);
+        requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+
         return binding.getRoot();
 
     }
