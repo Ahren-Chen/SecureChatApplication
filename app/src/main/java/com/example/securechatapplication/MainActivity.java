@@ -2,14 +2,12 @@ package com.example.securechatapplication;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,14 +17,12 @@ import com.example.securechatapplication.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private Button btn;
-    private Button newBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +37,73 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
+        binding.bottomNavigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.MessagesFragment) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.flFragment, new MessagesFragment())
+                            .commit();
+
+                    int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+
+                    if (currentFragmentId == R.id.CallingFragment) {
+                        navController.navigate(R.id.action_CallingFragment_to_MessagesFragment);
+                    }
+
+                    else if (currentFragmentId == R.id.HomeFragment) {
+                        navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
+                    }
+
+                    return true;
+
+                }
+                else if (item.getItemId() == R.id.HomeFragment) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.flFragment, new HomeFragment())
+                            .commit();
+
+                    int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+
+                    if (currentFragmentId == R.id.CallingFragment) {
+                        navController.navigate(R.id.action_CallingFragment_to_HomeFragment);
+                    }
+
+                    else if (currentFragmentId == R.id.MessagesFragment) {
+                        navController.navigate(R.id.action_MessagesFragment_to_HomeFragment);
+                    }
+
+                    return true;
+
+                }
+                else if (item.getItemId() == R.id.CallingFragment) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.flFragment, new CallingFragment())
+                            .commit();
+
+
+                    int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+                    if (currentFragmentId == R.id.HomeFragment) {
+                        navController.navigate(R.id.action_HomeFragment_to_CallingFragment);
+                    }
+
+                    else if (currentFragmentId == R.id.MessagesFragment) {
+                        navController.navigate(R.id.action_MessagesFragment_to_CallingFragment);
+                    }
+
+                    return true;
+                }
+
+                return false;
             }
         });
+
+        binding.bottomNavigationBar.setSelectedItemId(R.id.HomeFragment);
 
     }
 
@@ -77,7 +132,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
+        boolean result = NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+
+
+        return result;
     }
 }

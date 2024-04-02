@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/message_nav"
+        android:id="@+id/MessagesFragment"
         android:icon="@mipmap/chat"
         android:title="@string/Messages"/>
     <item
-        android:id="@+id/home_nav"
+        android:id="@+id/HomeFragment"
         android:icon="@mipmap/home"
         android:title="@string/Home_Title"/>
     <item
-        android:id="@+id/call_nav"
+        android:id="@+id/CallingFragment"
         android:icon="@mipmap/call"
         android:title="@string/Call"/>
     <item
