@@ -1,8 +1,6 @@
 package com.example.securechatapplication;
 
-import android.animation.StateListAnimator;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,7 @@ public class CallingFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
 
@@ -45,15 +43,8 @@ public class CallingFragment extends Fragment {
         LinearLayout layout = binding.getRoot().findViewById(R.id.select_call_layout);
         btn = (Button)getLayoutInflater().inflate(R.layout.fragment_button_default, null);
         btn.setText(R.string.next);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(CallingFragment.this)
-                        .navigate(R.id.action_CallingFragment_to_HomeFragment);
-            }
-        });
-        //btn.setWidth(binding.getRoot().getWidth());
-        //btn.setHeight(binding.getRoot().getHeight());
+        btn.setOnClickListener(view -> NavHostFragment.findNavController(CallingFragment.this)
+                .navigate(R.id.action_CallingFragment_to_HomeFragment));
 
         layout.addView(btn);
     }

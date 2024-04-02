@@ -17,7 +17,7 @@ public class MessagesFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
 
@@ -29,13 +29,8 @@ public class MessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(MessagesFragment.this)
-                        .navigate(R.id.action_MessagesFragment_to_HomeFragment);
-            }
-        });
+        binding.buttonHome.setOnClickListener(view1 -> NavHostFragment.findNavController(MessagesFragment.this)
+                .navigate(R.id.action_MessagesFragment_to_HomeFragment));
     }
 
     @Override

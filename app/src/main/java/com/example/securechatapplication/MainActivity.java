@@ -2,7 +2,6 @@ package com.example.securechatapplication;
 
 import android.os.Bundle;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.annotation.NonNull;
@@ -38,56 +37,53 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
-        binding.bottomNavigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        binding.bottomNavigationBar.setOnItemSelectedListener(item -> {
 
-                if (item.getItemId() == R.id.MessagesFragment) {
+            if (item.getItemId() == R.id.MessagesFragment) {
 
-                    int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+                int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
 
-                    if (currentFragmentId == R.id.CallingFragment) {
-                        navController.navigate(R.id.action_CallingFragment_to_MessagesFragment);
-                    }
-
-                    else if (currentFragmentId == R.id.HomeFragment) {
-                        navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
-                    }
-
-                    return true;
-
-                }
-                else if (item.getItemId() == R.id.HomeFragment) {
-
-                    int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
-
-                    if (currentFragmentId == R.id.CallingFragment) {
-                        navController.navigate(R.id.action_CallingFragment_to_HomeFragment);
-                    }
-
-                    else if (currentFragmentId == R.id.MessagesFragment) {
-                        navController.navigate(R.id.action_MessagesFragment_to_HomeFragment);
-                    }
-
-                    return true;
-
-                }
-                else if (item.getItemId() == R.id.CallingFragment) {
-
-                    int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
-                    if (currentFragmentId == R.id.HomeFragment) {
-                        navController.navigate(R.id.action_HomeFragment_to_CallingFragment);
-                    }
-
-                    else if (currentFragmentId == R.id.MessagesFragment) {
-                        navController.navigate(R.id.action_MessagesFragment_to_CallingFragment);
-                    }
-
-                    return true;
+                if (currentFragmentId == R.id.CallingFragment) {
+                    navController.navigate(R.id.action_CallingFragment_to_MessagesFragment);
                 }
 
-                return false;
+                else if (currentFragmentId == R.id.HomeFragment) {
+                    navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
+                }
+
+                return true;
+
             }
+            else if (item.getItemId() == R.id.HomeFragment) {
+
+                int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+
+                if (currentFragmentId == R.id.CallingFragment) {
+                    navController.navigate(R.id.action_CallingFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId == R.id.MessagesFragment) {
+                    navController.navigate(R.id.action_MessagesFragment_to_HomeFragment);
+                }
+
+                return true;
+
+            }
+            else if (item.getItemId() == R.id.CallingFragment) {
+
+                int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+                if (currentFragmentId == R.id.HomeFragment) {
+                    navController.navigate(R.id.action_HomeFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId == R.id.MessagesFragment) {
+                    navController.navigate(R.id.action_MessagesFragment_to_CallingFragment);
+                }
+
+                return true;
+            }
+
+            return false;
         });
 
         binding.bottomNavigationBar.setItemIconTintList(null);
