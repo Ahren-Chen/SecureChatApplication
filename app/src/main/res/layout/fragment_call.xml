@@ -5,24 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E91E63"
-    tools:context=".HomeFragment">
+    tools:context=".CallingFragment"
+    android:id="@+id/calling_scroll_view">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:id="@+id/constraint_layout">
-
-        <Button
-            android:id="@+id/button_test"
-            android:layout_width="128dp"
-            android:layout_height="79dp"
-            android:layout_marginTop="404dp"
-            android:text="@string/Call"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:id="@+id/select_call_layout"
+        android:orientation="vertical"/>
 </androidx.core.widget.NestedScrollView>

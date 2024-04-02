@@ -1,6 +1,8 @@
 package com.example.securechatapplication;
 
+import android.animation.StateListAnimator;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +10,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -18,7 +19,6 @@ public class CallingFragment extends Fragment {
 
     private FragmentCallBinding binding;
     private Button btn;
-    private int test = 5;
 
     @Override
     public View onCreateView(
@@ -34,21 +34,27 @@ public class CallingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addButton();
-            }
-        });
+        //FILL IN AN API CALL TO GET ALL USERS
+        int buttons = 5;
+        for (int i = 0; i < buttons; i++) {
+            addButton();
+        }
     }
 
     private void addButton() {
-        ConstraintLayout layout = binding.getRoot().findViewById(R.id.constraint_layout);
-        btn = new Button(binding.constraintLayout.getContext());
+        LinearLayout layout = binding.getRoot().findViewById(R.id.select_call_layout);
+        btn = (Button)getLayoutInflater().inflate(R.layout.fragment_button_default, null);
         btn.setText(R.string.next);
-        btn.setX(test);
-        btn.setY(test);
-        test += 50;
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(CallingFragment.this)
+                        .navigate(R.id.action_CallingFragment_to_HomeFragment);
+            }
+        });
+        //btn.setWidth(binding.getRoot().getWidth());
+        //btn.setHeight(binding.getRoot().getHeight());
+
         layout.addView(btn);
     }
     @Override

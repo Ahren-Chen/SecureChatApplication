@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/MessagesFragment"
         android:name="com.example.securechatapplication.MessagesFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/Messages"
         tools:layout="@layout/fragment_messages">
 
         <action
@@ -33,7 +33,7 @@
     <fragment
         android:id="@+id/CallingFragment"
         android:name="com.example.securechatapplication.CallingFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/Call"
         tools:layout="@layout/fragment_call">
 
         <action

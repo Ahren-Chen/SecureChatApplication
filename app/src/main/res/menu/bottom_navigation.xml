@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/message_nav"
+        android:icon="@mipmap/chat"
+        android:title="@string/Messages"/>
+    <item
+        android:id="@+id/home_nav"
+        android:icon="@mipmap/home"
+        android:title="@string/Home_Title"/>
+    <item
+        android:id="@+id/call_nav"
+        android:icon="@mipmap/call"
+        android:title="@string/Call"/>
+    <item
+        android:id="@+id/account_nav"
+        android:icon="@mipmap/account"
+        android:title="@string/Account"/>
+    <item
+        android:id="@+id/survey_nav"
+        android:icon="@mipmap/survey"
+        android:title="@string/Survey"/>
+</menu>
