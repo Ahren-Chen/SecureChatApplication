@@ -4,19 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.securechatapplication.databinding.FragmentCallBinding;
+import com.example.securechatapplication.databinding.FragmentCallingSomeoneBinding;
 
 public class CallingPersonFragment extends Fragment {
 
-    private FragmentCallBinding binding;
-    private Button btn;
+    private FragmentCallingSomeoneBinding binding;
 
     @Override
     public View onCreateView(
@@ -24,7 +21,7 @@ public class CallingPersonFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentCallBinding.inflate(inflater, container, false);
+        binding = FragmentCallingSomeoneBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -32,6 +29,8 @@ public class CallingPersonFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonEndCall.setOnClickListener(view1 -> NavHostFragment.findNavController(CallingPersonFragment.this)
+                .navigate(R.id.action_CallingSomeoneFragment_to_CallingFragment));
     }
     @Override
     public void onDestroyView() {

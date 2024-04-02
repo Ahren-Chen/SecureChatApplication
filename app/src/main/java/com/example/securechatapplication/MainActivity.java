@@ -2,9 +2,6 @@ package com.example.securechatapplication;
 
 import android.os.Bundle;
 
-import com.google.android.material.navigation.NavigationBarView;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.navigation.NavController;

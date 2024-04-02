@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/HomeFragment"
         android:name="com.example.securechatapplication.HomeFragment"
-        android:label="Home Fragment"
+        android:label="@string/Home_Title"
         tools:layout="@layout/fragment_home">
 
         <action
@@ -47,5 +47,21 @@
         <action
             android:id="@+id/action_CallingFragment_to_MessagesFragment"
             app:destination="@id/MessagesFragment" />
+
+        <action
+            android:id="@+id/action_CallingFragment_to_CallingSomeoneFragment"
+            app:destination="@id/CallingPersonFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CallingPersonFragment"
+        android:name="com.example.securechatapplication.CallingPersonFragment"
+        android:label="@string/Calling_Someone_Fragment"
+        tools:layout="@layout/fragment_calling_someone">
+
+        <action
+            android:id="@+id/action_CallingSomeoneFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
+
     </fragment>
 </navigation>

@@ -44,7 +44,7 @@ public class CallingFragment extends Fragment {
         btn = (Button)getLayoutInflater().inflate(R.layout.fragment_button_default, null);
         btn.setText(R.string.next);
         btn.setOnClickListener(view -> NavHostFragment.findNavController(CallingFragment.this)
-                .navigate(R.id.action_CallingFragment_to_HomeFragment));
+                .navigate(R.id.action_CallingFragment_to_CallingSomeoneFragment));
 
         layout.addView(btn);
     }

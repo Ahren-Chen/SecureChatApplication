@@ -2,8 +2,6 @@
     <string name="app_name">SecureChatApplication</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -49,4 +47,12 @@
     <string name="Account">Account</string>
     <string name="Survey">Survey</string>
     <string name="Home_Title">Home Page</string>
+
+    <!-- Strings for calling someone -->
+    <string name="Calling_Someone">Calling…</string>
+    <string name="Calling_Someone_Fragment">Calling Fragment</string>
+    <string name="Mute">Mute</string>
+    <string name="Record">Record</string>
+    <string name="Speaker">Speaker</string>
+    <string name="End_Call">End Call</string>
 </resources>
