@@ -10,30 +10,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:paddingBottom="16dp">
 
         <Button
             android:id="@+id/button_call"
             android:layout_width="128dp"
             android:layout_height="79dp"
-            android:layout_marginTop="404dp"
+            android:layout_marginTop="376dp"
             android:text="@string/Call"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/home_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text="@string/Home_Title"
-            android:textAlignment="center"
-            android:textColor="@color/sky_blue"
-            android:textSize="60sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,19 +27,8 @@
             android:id="@+id/button_messages"
             android:layout_width="128dp"
             android:layout_height="79dp"
-            android:layout_marginTop="164dp"
+            android:layout_marginTop="136dp"
             android:text="@string/Messages"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button_account"
-            android:layout_width="128dp"
-            android:layout_height="79dp"
-            android:layout_marginTop="284dp"
-            android:text="@string/Account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,10 +38,36 @@
             android:id="@+id/button_survey"
             android:layout_width="128dp"
             android:layout_height="79dp"
-            android:layout_marginTop="524dp"
+            android:layout_marginTop="496dp"
             android:text="@string/Survey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_account"
+            android:layout_width="128dp"
+            android:layout_height="79dp"
+            android:layout_marginTop="256dp"
+            android:text="@string/Account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/home_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/Home_Title"
+            android:textAlignment="center"
+            android:textColor="@color/sky_blue"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

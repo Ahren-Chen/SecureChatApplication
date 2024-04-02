@@ -3,21 +3,26 @@
     <item
         android:id="@+id/MessagesFragment"
         android:icon="@mipmap/chat"
-        android:title="@string/Messages"/>
+        android:title="@string/Messages"
+        android:enabled="true"/>
     <item
         android:id="@+id/HomeFragment"
         android:icon="@mipmap/home"
-        android:title="@string/Home_Title"/>
+        android:title="@string/Home_Title"
+        android:enabled="true"/>
     <item
         android:id="@+id/CallingFragment"
         android:icon="@mipmap/call"
-        android:title="@string/Call"/>
+        android:title="@string/Call"
+        android:enabled="true"/>
     <item
         android:id="@+id/account_nav"
         android:icon="@mipmap/account"
-        android:title="@string/Account"/>
+        android:title="@string/Account"
+        android:enabled="true"/>
     <item
         android:id="@+id/survey_nav"
         android:icon="@mipmap/survey"
-        android:title="@string/Survey"/>
+        android:title="@string/Survey"
+        android:enabled="true"/>
 </menu>

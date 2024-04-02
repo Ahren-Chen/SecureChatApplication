@@ -43,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 if (item.getItemId() == R.id.MessagesFragment) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.flFragment, new MessagesFragment())
-                            .commit();
 
                     int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
 
@@ -62,10 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if (item.getItemId() == R.id.HomeFragment) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.flFragment, new HomeFragment())
-                            .commit();
 
                     int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
 
@@ -81,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if (item.getItemId() == R.id.CallingFragment) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.flFragment, new CallingFragment())
-                            .commit();
-
 
                     int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
                     if (currentFragmentId == R.id.HomeFragment) {
@@ -103,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.bottomNavigationBar.setItemIconTintList(null);
         binding.bottomNavigationBar.setSelectedItemId(R.id.HomeFragment);
 
     }
@@ -132,10 +120,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        boolean result = NavigationUI.navigateUp(navController, appBarConfiguration)
+
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
-
-
-        return result;
     }
 }
