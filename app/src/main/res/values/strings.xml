@@ -55,4 +55,11 @@
     <string name="Record">Record</string>
     <string name="Speaker">Speaker</string>
     <string name="End_Call">End Call</string>
+
+    <!-- Strings for login -->
+    <string name="Login">Login</string>
+    <string name="Username">Enter Username</string>
+    <string name="Password">Enter Password</string>
+    <string name="Submit">Submit</string>
+    <string name="Login_Fragment">Login Fragment</string>
 </resources>

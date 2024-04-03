@@ -1,5 +1,6 @@
 package com.example.securechatapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +23,19 @@ public class HomeFragment extends Fragment {
     ) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.VISIBLE);
+        requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+
         return binding.getRoot();
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.VISIBLE);
+        //requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 
         binding.buttonMessages.setOnClickListener(view1 -> NavHostFragment.findNavController(HomeFragment.this)
                 .navigate(R.id.action_HomeFragment_to_MessagesFragment));

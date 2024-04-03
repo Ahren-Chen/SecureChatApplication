@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeFragment">
+    app:startDestination="@id/LoginFragment">
 
     <fragment
         android:id="@+id/HomeFragment"
@@ -18,6 +18,10 @@
         <action
             android:id="@+id/action_HomeFragment_to_CallingFragment"
             app:destination="@id/CallingFragment" />
+
+        <action
+            android:id="@+id/action_HomeFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/MessagesFragment"
@@ -32,6 +36,10 @@
         <action
             android:id="@+id/action_MessagesFragment_to_CallingFragment"
             app:destination="@id/CallingFragment" />
+
+        <action
+            android:id="@+id/action_MessagesFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
 
     <fragment
@@ -51,6 +59,10 @@
         <action
             android:id="@+id/action_CallingFragment_to_CallingSomeoneFragment"
             app:destination="@id/CallingPersonFragment" />
+
+        <action
+            android:id="@+id/action_CallingFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
 
     <fragment
@@ -62,6 +74,18 @@
         <action
             android:id="@+id/action_CallingSomeoneFragment_to_CallingFragment"
             app:destination="@id/CallingFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.example.securechatapplication.LoginFragment"
+        android:label="@string/Login_Fragment"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_LoginFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
 
     </fragment>
 </navigation>

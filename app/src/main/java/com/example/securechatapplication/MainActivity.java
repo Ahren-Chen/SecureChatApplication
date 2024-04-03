@@ -13,6 +13,7 @@ import com.example.securechatapplication.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setVisibility(View.GONE);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNavigationBar.setItemIconTintList(null);
         binding.bottomNavigationBar.setSelectedItemId(R.id.HomeFragment);
-
+        binding.bottomNavigationBar.setVisibility(View.GONE);
     }
 
     @Override
