@@ -1,5 +1,7 @@
 package com.example.securechatapplication.server;
 
+import static com.example.securechatapplication.server.SocketNames.KDCSocket;
+
 import com.example.securechatapplication.interfaces.KDCInterface;
 
 import java.io.BufferedReader;
@@ -26,7 +28,7 @@ public class KDC implements KDCInterface {
         try {
             // Create server socket
 
-            try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            try (ServerSocket serverSocket = new ServerSocket(KDCSocket.getValue())) {
                 System.out.println("KDC is waiting for requests to connect...");
                 while (true) {
                     // Accept slave connection
