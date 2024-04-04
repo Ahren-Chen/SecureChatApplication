@@ -14,14 +14,14 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
 
         //TO DO: Send message to KDC with username, KDC returns an encrypted session key that is encrypted
         //with the hash of the password
-        try {
+        /*try {
             Socket socket = new Socket("localhost", 5000);
 
             // Open input and output streams
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException exception) {
             System.out.println("Critical Error: " + exception);
-        }
+        }*/
 
         return true;
     }
