@@ -8,6 +8,6 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
 
         //TO DO: Send message to KDC with username, KDC returns an encrypted session key that is encrypted
         //with the hash of the password
-        return false;
+        return true;
     }
 }
