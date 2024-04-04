@@ -24,8 +24,10 @@ public class CallingFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
+        //Create view
         binding = FragmentCallBinding.inflate(inflater, container, false);
 
+        //Set toolbar and bottom navigation to visible again if returning from calling
         requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.VISIBLE);
         requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 
@@ -36,7 +38,7 @@ public class CallingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //FILL IN AN API CALL TO GET ALL USERS
+        //TO DO: FILL IN AN API CALL TO GET ALL USERS FROM ACCOUNT MANAGEMENT
         int buttons = 5;
         for (int i = 0; i < buttons; i++) {
             addButton();

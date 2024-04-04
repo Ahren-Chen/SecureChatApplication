@@ -11,8 +11,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.securechatapplication.databinding.FragmentCallingSomeoneBinding;
 
-import java.util.Objects;
-
 public class CallingPersonFragment extends Fragment {
 
     private FragmentCallingSomeoneBinding binding;
@@ -23,6 +21,7 @@ public class CallingPersonFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
+        //Create the view and set toolbar and navigation to invisible when calling
         binding = FragmentCallingSomeoneBinding.inflate(inflater, container, false);
 
         requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
@@ -34,6 +33,7 @@ public class CallingPersonFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Go back to call selection when clicking end call
         binding.buttonEndCall.setOnClickListener(view1 -> NavHostFragment.findNavController(CallingPersonFragment.this)
                 .navigate(R.id.action_CallingSomeoneFragment_to_CallingFragment));
     }

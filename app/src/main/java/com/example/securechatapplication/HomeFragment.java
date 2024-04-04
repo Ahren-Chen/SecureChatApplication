@@ -1,6 +1,5 @@
 package com.example.securechatapplication;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,10 @@ public class HomeFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
+        //Create the view
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
+        //When reaching the home page, set the toolbar and bottom navigation visible
         requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.VISIBLE);
         requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 
@@ -34,12 +35,11 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.VISIBLE);
-        //requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-
+        //If the messages button is clicked, travel to messages
         binding.buttonMessages.setOnClickListener(view1 -> NavHostFragment.findNavController(HomeFragment.this)
                 .navigate(R.id.action_HomeFragment_to_MessagesFragment));
 
+        //If the calling button is clicked, travel to call selection
         binding.buttonCall.setOnClickListener(view1 -> NavHostFragment.findNavController(HomeFragment.this)
                 .navigate(R.id.action_HomeFragment_to_CallingFragment));
     }

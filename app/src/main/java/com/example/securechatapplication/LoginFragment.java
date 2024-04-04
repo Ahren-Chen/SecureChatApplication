@@ -1,15 +1,12 @@
 package com.example.securechatapplication;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -25,6 +22,7 @@ public class LoginFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
+        //Create the view
         binding = FragmentLoginBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
@@ -41,6 +39,7 @@ public class LoginFragment extends Fragment {
             EditText passwordInput = binding.getRoot().findViewById(R.id.login_enter_password);
             String password = usernameInput.getText().toString();
 
+            //TO DO, COMMUNICATE WITH KDC TO AUTHENTICATE LOGIN
             NavHostFragment.findNavController(LoginFragment.this)
                     .navigate(R.id.action_LoginFragment_to_HomeFragment);
         });
