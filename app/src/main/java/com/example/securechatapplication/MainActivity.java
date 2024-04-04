@@ -13,6 +13,7 @@ import com.example.securechatapplication.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Objects;
 
@@ -24,18 +25,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Building the main activity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //Setting the toolbar and make it initially invisible for login page
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setVisibility(View.GONE);
 
+        //Create the navigation controller
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+        //Bind the bottom navigation bar to the navigation controller
         NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
+
+        //If the navigation is clicked, an action is performed
         binding.bottomNavigationBar.setOnItemSelectedListener(item -> {
 
+            //If I clicked messages, then travel to messages
             if (item.getItemId() == R.id.MessagesFragment) {
 
                 int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
@@ -51,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             }
+
+            //If I clicked on home, travel to homepage
             else if (item.getItemId() == R.id.HomeFragment) {
 
                 int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
@@ -66,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             }
+
+            //If I clicked on calling, travel to call selection page
             else if (item.getItemId() == R.id.CallingFragment) {
 
                 int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
@@ -83,9 +96,10 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+        //Set the bottom navigation bar settings. Initial is home page and invisible
         binding.bottomNavigationBar.setItemIconTintList(null);
         binding.bottomNavigationBar.setSelectedItemId(R.id.HomeFragment);
-
+        binding.bottomNavigationBar.setVisibility(View.GONE);
     }
 
     @Override

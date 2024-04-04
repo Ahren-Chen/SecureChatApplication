@@ -4,72 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E91E63"
+    android:background="@color/light_navy"
     tools:context=".HomeFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="16dp">
 
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="176dp"
+            android:text="@string/Login"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_call"
-            android:layout_width="128dp"
-            android:layout_height="79dp"
-            android:layout_marginTop="448dp"
-            android:text="@string/loginStart"
+            android:id="@+id/button_login_submit"
+            android:layout_width="168dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="121dp"
+            android:layout_marginTop="335dp"
+            android:layout_marginEnd="122dp"
+            android:text="@string/Submit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/login_title" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/login_enter_username"
+            android:hint="@string/Username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="224dp"
-            android:height="50dp"
+            android:layout_marginTop="98dp"
             android:ems="10"
-            android:hint="@string/enter_email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="LabelFor"
-            android:autofillHints="Enter email" />
-
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/welcome_message"
-            android:textAlignment="center"
-            android:textColor="@color/sky_blue"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
+            android:inputType="text"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/login_title"
+            android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/login_enter_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:height="50dp"
+            android:layout_marginTop="48dp"
             android:ems="10"
-            android:hint="@string/enter_password"
+            android:hint="@string/Password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
-            app:layout_constraintBottom_toTopOf="@+id/button_call"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
-            app:layout_constraintVertical_bias="0.167"
-            android:autofillHints="Enter password" />
+            app:layout_constraintTop_toBottomOf="@+id/login_enter_username" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.core.widget.NestedScrollView>

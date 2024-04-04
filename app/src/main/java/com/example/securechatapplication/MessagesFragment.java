@@ -21,6 +21,7 @@ public class MessagesFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
+        //Create the view
         binding = FragmentMessagesBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -29,6 +30,7 @@ public class MessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //If the home "Previous" is clicked
         binding.buttonHome.setOnClickListener(view1 -> NavHostFragment.findNavController(MessagesFragment.this)
                 .navigate(R.id.action_MessagesFragment_to_HomeFragment));
     }

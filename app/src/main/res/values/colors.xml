@@ -5,4 +5,6 @@
     <color name="sky_blue">#87CEEB</color>
     <color name="blue">#0000FF</color>
     <color name="dark_blue">#000435</color>
+    <color name="orange">#FFA500</color>
+    <color name="light_navy">#ACC8E5</color>
 </resources>

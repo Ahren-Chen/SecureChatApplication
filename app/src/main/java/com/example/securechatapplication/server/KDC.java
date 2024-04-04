@@ -31,11 +31,11 @@ public class KDC implements KDCInterface {
             try (ServerSocket serverSocket = new ServerSocket(KDCSocket.getValue())) {
                 System.out.println("KDC is waiting for requests to connect...");
                 while (true) {
-                    // Accept slave connection
+                    // Accept request connection
                     Socket socket = serverSocket.accept();
                     System.out.println("Request Received: " + socket);
 
-                    // Create new thread to handle slave
+                    // Create new thread to handle request
                     Thread t = new Thread(new RequestHandler(socket));
                     t.start();
                 }

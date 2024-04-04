@@ -70,4 +70,11 @@
     <string name="save_changes">Save Changes</string>
     <string name="new_password">New password</string>
     <string name="new_username">New username</string>
+
+    <!-- Strings for login -->
+    <string name="Login">Login</string>
+    <string name="Username">Enter Username</string>
+    <string name="Password">Enter Password</string>
+    <string name="Submit">Submit</string>
+    <string name="Login_Fragment">Login Fragment</string>
 </resources>
