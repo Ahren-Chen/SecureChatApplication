@@ -128,7 +128,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
+        boolean result = NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+
+        int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+
+        if (currentFragmentId == R.id.LoginFragment) {
+            binding.bottomNavigationBar.setVisibility(View.GONE);
+            binding.toolbar.setVisibility(View.GONE);
+        }
+        return result;
     }
 }
