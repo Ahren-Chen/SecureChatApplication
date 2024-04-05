@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentLoginBinding;
-import com.example.securechatapplication.interfaces.MAPInterface;
 
 import kotlin.NotImplementedError;
 

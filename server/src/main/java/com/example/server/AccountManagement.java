@@ -1,6 +1,6 @@
-package com.example.securechatapplication.server;
+package com.example.server;
 
-import com.example.securechatapplication.interfaces.AccountManagementInterface;
+import com.example.server.interfaces.AccountManagementInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;

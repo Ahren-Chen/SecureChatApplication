@@ -1,27 +1,26 @@
-package com.example.securechatapplication.server;
+package com.example.server;
 
-import static com.example.securechatapplication.server.SocketNames.KDCSocket;
+import static com.example.server.SocketNames.KDCSocket;
 
-import com.example.securechatapplication.interfaces.KDCInterface;
+import com.example.server.interfaces.KDCInterface;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 public class KDC implements KDCInterface {
     private static HashMap<String, Key> keysDB;
 
     public KDC() {
         keysDB = new HashMap<>();
-    }
-    @Override
-    public boolean login() {
-        return false;
     }
 
     public static void main(String[] args) {
@@ -48,7 +47,7 @@ public class KDC implements KDCInterface {
 
 // Slave handler class
 class RequestHandler implements Runnable {
-    private Socket socket;
+    private final Socket socket;
 
     public RequestHandler(Socket socket) {
         this.socket = socket;
@@ -57,17 +56,15 @@ class RequestHandler implements Runnable {
     public void run() {
         try {
             // Open input and output streams
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             // Read input from slave
-            String message = in.readLine();
-            System.out.println("Message from slave: " + message);
+            Request message = (Request) in.readObject();
+            System.out.println("Request from MAP: " + message.getType().toString());
 
             // Process input (e.g., perform some task)
-
-            // Send response to slave
-            out.println("Task completed");
+            out.writeObject(generateKey());
 
             // Close streams and socket
             in.close();
@@ -75,6 +72,20 @@ class RequestHandler implements Runnable {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public static SecretKey generateKey() {
+        SecretKey key;
+        try {
+            KeyGenerator generator = KeyGenerator.getInstance("AES");
+            generator.init(256);
+            key = generator.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        return key;
     }
 }

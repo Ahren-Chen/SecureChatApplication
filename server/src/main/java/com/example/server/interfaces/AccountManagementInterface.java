@@ -1,4 +1,4 @@
-package com.example.securechatapplication.interfaces;
+package com.example.server.interfaces;
 
 import java.util.HashMap;
 import java.util.List;

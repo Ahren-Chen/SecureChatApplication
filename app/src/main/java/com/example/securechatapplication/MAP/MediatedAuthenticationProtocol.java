@@ -1,28 +1,53 @@
 package com.example.securechatapplication.MAP;
 
-import com.example.securechatapplication.interfaces.MAPInterface;
+import com.example.server.interfaces.MAPInterface;
+import com.example.server.Request;
+import com.example.server.RequestTypes;
+import com.example.server.SocketNames;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.Arrays;
+
+import javax.crypto.SecretKey;
 
 public class MediatedAuthenticationProtocol extends MAPInterface {
 
     public static boolean authenticateLogin(String username, String password)  {
 
+        Request request = new Request(RequestTypes.login, username);
+
+        Thread t = new Thread(new NetworkHandler(request));
         //TO DO: Send message to KDC with username, KDC returns an encrypted session key that is encrypted
         //with the hash of the password
-        /*try {
-            Socket socket = new Socket("localhost", 5000);
-
-            // Open input and output streams
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException exception) {
-            System.out.println("Critical Error: " + exception);
-        }*/
 
         return true;
+    }
+}
+
+class NetworkHandler implements Runnable {
+    private final Request request;
+    public NetworkHandler(Request request) {
+        this.request = request;
+    }
+
+    @Override
+    public void run() {
+        try (Socket socket = new Socket("KDC", SocketNames.KDCSocket.getValue());){
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+            out.writeObject(request);
+
+            SecretKey key = (SecretKey) in.readObject();
+            System.out.println(Arrays.toString(key.getEncoded()));
+
+        } catch (IOException exception) {
+            System.out.println("Critical Error: " + exception);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

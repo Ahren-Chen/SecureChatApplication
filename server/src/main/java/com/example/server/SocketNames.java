@@ -1,4 +1,4 @@
-package com.example.securechatapplication.server;
+package com.example.server;
 
 public enum SocketNames {
     KDCSocket(5000),

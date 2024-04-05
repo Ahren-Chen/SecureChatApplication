@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SecureChatApplication"
 include(":app")
- 
+include(":server")
