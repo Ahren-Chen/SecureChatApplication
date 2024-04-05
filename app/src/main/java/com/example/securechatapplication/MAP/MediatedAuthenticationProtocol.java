@@ -23,7 +23,11 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
         t.start();
         //TO DO: Send message to KDC with username, KDC returns an encrypted session key that is encrypted
         //with the hash of the password
-
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted execution: " + e);
+        }
         return true;
     }
 }
@@ -36,7 +40,9 @@ class NetworkHandler implements Runnable {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket("localhost", SocketNames.KDCSocket.getValue());){
+        String emulatorHostAddress = "10.0.2.2";
+        try (Socket socket = new Socket(emulatorHostAddress, SocketNames.KDCSocket.getValue())){
+
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 

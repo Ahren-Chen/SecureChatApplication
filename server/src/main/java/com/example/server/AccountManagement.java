@@ -2,9 +2,18 @@ package com.example.server;
 
 import com.example.server.interfaces.AccountManagementInterface;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class AccountManagement implements AccountManagementInterface {
     private static List<HashMap<String, String>> accounts;
@@ -13,9 +22,14 @@ public class AccountManagement implements AccountManagementInterface {
         accounts = new ArrayList<>();
 
         HashMap<String, String> user1 = new HashMap<>();
+        String user1Password = "abcd";
+        String user1RandomSalt = "123456789";
+        IvParameterSpec ivParameterSpec = AESUtil.
+
         user1.put("username", "ahren657");
         user1.put("hashPassword", "abcd");
         user1.put("authorityLevel", "CEO");
+        user1.put("randomEncryptionSalt", user1RandomSalt);
 
         HashMap<String, String> user2 = new HashMap<>();
         user1.put("username", "John");

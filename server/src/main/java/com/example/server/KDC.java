@@ -29,6 +29,8 @@ public class KDC implements KDCInterface {
 
             try (ServerSocket serverSocket = new ServerSocket(KDCSocket.getValue())) {
                 System.out.println("KDC is waiting for requests to connect...");
+                //serverSocket.getInetAddress();
+                System.out.println("Server IP Address: " + serverSocket.getInetAddress().getHostAddress());
                 while (true) {
                     // Accept request connection
                     Socket socket = serverSocket.accept();
@@ -37,6 +39,7 @@ public class KDC implements KDCInterface {
                     // Create new thread to handle request
                     Thread t = new Thread(new RequestHandler(socket));
                     t.start();
+
                 }
             }
         } catch (IOException e) {
