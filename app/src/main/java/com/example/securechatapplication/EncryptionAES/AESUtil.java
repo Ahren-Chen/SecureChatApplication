@@ -1,7 +1,5 @@
 package com.example.securechatapplication.EncryptionAES;
 
-import android.os.Build;
-
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -23,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AESUtil {
     public static SecretKey generateKey() {
-        KeyGenerator keyGenerator = null;
+        KeyGenerator keyGenerator;
         try {
             keyGenerator = KeyGenerator.getInstance("AES");
         } catch (NoSuchAlgorithmException e) {
@@ -33,13 +31,22 @@ public class AESUtil {
         return keyGenerator.generateKey();
     }
 
-    public static SecretKey getKeyFromPassword(String password, String salt)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static SecretKey getKeyFromPassword(String password, String salt) {
+        SecretKeyFactory factory;
 
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        try {
+            factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
-        return new SecretKeySpec(factory.generateSecret(spec)
-                .getEncoded(), "AES");
+
+        try {
+            return new SecretKeySpec(factory.generateSecret(spec)
+                    .getEncoded(), "AES");
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static IvParameterSpec generateIv() {
@@ -64,29 +71,27 @@ public class AESUtil {
         } catch(BadPaddingException | IllegalBlockSizeException e) {
             throw new RuntimeException(e);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return Base64.getEncoder()
-                    .encodeToString(cipherText);
-        }
-        else {
-            throw new RuntimeException("Bad build version, requires version 26");
-        }
+        return Base64.getEncoder()
+                .encodeToString(cipherText);
 
     }
 
-    public static String decrypt(String algorithm, String cipherText, SecretKey key,
-                                 IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
+    public static String decrypt(String cipherText, SecretKey key,
+                                 IvParameterSpec iv){
+        Cipher cipher;
+        try {
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, iv);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
 
-        Cipher cipher = Cipher.getInstance(algorithm);
-        cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        byte[] plainText = new byte[0];
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        byte[] plainText;
+        try {
             plainText = cipher.doFinal(Base64.getDecoder()
                     .decode(cipherText));
-        } else {
-            throw new RuntimeException("Bad build version, decrypt failed");
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
         }
         return new String(plainText);
     }

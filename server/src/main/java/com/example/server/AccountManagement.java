@@ -24,7 +24,7 @@ public class AccountManagement implements AccountManagementInterface {
         HashMap<String, String> user1 = new HashMap<>();
         String user1Password = "abcd";
         String user1RandomSalt = "123456789";
-        IvParameterSpec ivParameterSpec = AESUtil.
+        //IvParameterSpec ivParameterSpec = AESUtil.
 
         user1.put("username", "ahren657");
         user1.put("hashPassword", "abcd");
