@@ -79,10 +79,22 @@
             android:layout_marginTop="60dp"
             android:text="@string/save_changes"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintEnd_toStartOf="@+id/CreateAccountPreviousButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextSetAuthority" />
+
+        <Button
+            android:id="@+id/CreateAccountPreviousButton"
+            android:layout_width="128dp"
+            android:layout_height="79dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/EditAccountPrevious"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.823"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSetAuthority"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

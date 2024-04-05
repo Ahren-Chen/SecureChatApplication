@@ -42,6 +42,10 @@ public class HomeFragment extends Fragment {
         //If the calling button is clicked, travel to call selection
         binding.buttonCall.setOnClickListener(view1 -> NavHostFragment.findNavController(HomeFragment.this)
                 .navigate(R.id.action_HomeFragment_to_CallingFragment));
+
+        //If account button is clicked, travel to account MGMT
+        binding.buttonAccount.setOnClickListener(view1 -> NavHostFragment.findNavController(HomeFragment.this)
+                .navigate(R.id.action_HomeFragment_to_accountManagementFragment));
     }
 
     @Override

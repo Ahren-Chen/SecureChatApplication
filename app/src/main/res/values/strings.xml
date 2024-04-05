@@ -77,4 +77,9 @@
     <string name="Password">Enter Password</string>
     <string name="Submit">Submit</string>
     <string name="Login_Fragment">Login Fragment</string>
+    <string name="CreateAccountPrevious">Previous</string>
+    <string name="EditAccountPrevious">Previous</string>
+    <string name="delete_accountHeader">Delete Account</string>
+    <string name="delete">Delete</string>
+    <string name="Deleteprevious">Previous</string>
 </resources>
