@@ -1,5 +1,7 @@
-package com.example.securechatapplication.EncryptionAES;
+package com.example.server.EncryptionAES;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +15,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
@@ -94,5 +97,37 @@ public class AESUtil {
             throw new RuntimeException(e);
         }
         return new String(plainText);
+    }
+
+    public static SealedObject encryptObject(Serializable object,
+                                             SecretKey key, IvParameterSpec iv) {
+        Cipher cipher;
+        try {
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            return new SealedObject(object, cipher);
+        } catch (IOException | IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Serializable decryptObject(SealedObject sealedObject,
+                                             SecretKey key, IvParameterSpec iv){
+        Cipher cipher;
+        try {
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, iv);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            return (Serializable) sealedObject.getObject(cipher);
+        } catch (IOException | IllegalBlockSizeException | ClassNotFoundException | BadPaddingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

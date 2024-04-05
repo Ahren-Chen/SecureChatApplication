@@ -4,8 +4,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.example.securechatapplication.EncryptionAES.AESUtil;
+import com.example.server.EncryptionAES.AESUtil;
+import com.example.server.Request;
+import com.example.server.RequestTypes;
 
+import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
@@ -31,7 +34,7 @@ public class AESTest {
 
     @Test
     public void testWithNoPasswordEncryptionAndDecryption() {
-        String plainText = "testing123.;";
+        String plainText = "`'][{}|:?><'`";
         IvParameterSpec ivParameterSpec = AESUtil.generateIv();
         SecretKey key = AESUtil.generateKey();
         String cipherText = AESUtil.encrypt(plainText, key, ivParameterSpec);
@@ -39,5 +42,20 @@ public class AESTest {
                 cipherText, key, ivParameterSpec);
 
         assertEquals(plainText, decryptedCipherText);
+    }
+
+    @Test
+    public void objectEncryptionDecryptionTest() {
+        Request request = new Request(RequestTypes.login, "hi");
+        SecretKey key = AESUtil.generateKey();
+        IvParameterSpec ivParameterSpec = AESUtil.generateIv();
+        SealedObject sealedObject = AESUtil.encryptObject(
+                request, key, ivParameterSpec);
+        Request object = (Request) AESUtil.decryptObject(
+                sealedObject, key, ivParameterSpec);
+        assertEquals(request.getType(), object.getType());
+        assertEquals(request.getUsername(), object.getUsername());
+        assertEquals(request.getKey(), object.getKey());
+
     }
 }

@@ -1,19 +1,13 @@
 package com.example.server;
 
+import com.example.server.EncryptionAES.AESUtil;
 import com.example.server.interfaces.AccountManagementInterface;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 
 public class AccountManagement implements AccountManagementInterface {
     private static List<HashMap<String, String>> accounts;
@@ -24,16 +18,19 @@ public class AccountManagement implements AccountManagementInterface {
         HashMap<String, String> user1 = new HashMap<>();
         String user1Password = "abcd";
         String user1RandomSalt = "123456789";
-        //IvParameterSpec ivParameterSpec = AESUtil.
+        SecretKey user1SecretKey = AESUtil.getKeyFromPassword(user1Password, user1RandomSalt);
 
         user1.put("username", "ahren657");
-        user1.put("hashPassword", "abcd");
+        user1.put("secretPasswordKey", user1SecretKey.toString());
         user1.put("authorityLevel", "CEO");
-        user1.put("randomEncryptionSalt", user1RandomSalt);
 
         HashMap<String, String> user2 = new HashMap<>();
+        String user2Password = "1234";
+        String user2RandomSalt = "987654321";
+        SecretKey user2SecretKey = AESUtil.getKeyFromPassword(user2Password, user2RandomSalt);
+
         user1.put("username", "John");
-        user1.put("hashPassword", "1234");
+        user1.put("secretPasswordKey", user2SecretKey.toString());
         user1.put("authorityLevel", "Employee");
 
         accounts.add(user1);
