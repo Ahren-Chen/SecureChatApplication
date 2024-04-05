@@ -20,6 +20,7 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
         Request request = new Request(RequestTypes.login, username);
 
         Thread t = new Thread(new NetworkHandler(request));
+        t.start();
         //TO DO: Send message to KDC with username, KDC returns an encrypted session key that is encrypted
         //with the hash of the password
 
@@ -35,14 +36,20 @@ class NetworkHandler implements Runnable {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket("KDC", SocketNames.KDCSocket.getValue());){
+        try (Socket socket = new Socket("localhost", SocketNames.KDCSocket.getValue());){
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
             out.writeObject(request);
+            SecretKey key = null;
+            while (key == null) {
+                key = (SecretKey) in.readObject();
+            }
 
-            SecretKey key = (SecretKey) in.readObject();
             System.out.println(Arrays.toString(key.getEncoded()));
+
+            out.close();
+            in.close();
 
         } catch (IOException exception) {
             System.out.println("Critical Error: " + exception);

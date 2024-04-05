@@ -1,6 +1,5 @@
 package com.example.securechatapplication;
 
-import android.accounts.Account;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.securechatapplication.databinding.FragmentAccountManagementBinding;
-import com.example.securechatapplication.databinding.FragmentCallBinding;
-import com.example.securechatapplication.databinding.FragmentHomeBinding;
 
 public class AccountManagementFragment extends Fragment {
 

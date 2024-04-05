@@ -33,7 +33,7 @@ public class AccountManagement implements AccountManagementInterface {
     }
 
     public int createAccount(String newName, String newPass,String auth){
-        for (HashMap h:accounts) {
+        for (HashMap<String, String> h:accounts) {
             if (h.containsValue(newName)){
                 System.out.println("Error: user name already in system");
                 return 1;
@@ -47,7 +47,7 @@ public class AccountManagement implements AccountManagementInterface {
         return 0;
     }
     public int deleteAccount(String name){
-        for (HashMap h:accounts) {
+        for (HashMap<String, String> h:accounts) {
             if (h.containsValue(name)){
                 if(!accounts.remove(h)) System.out.println("Error deleting account");
                 return 0;
@@ -57,13 +57,13 @@ public class AccountManagement implements AccountManagementInterface {
         return 1;
     }
     public int editAccount(String oldName,String newName, String newPass, String newAuth){
-        for (HashMap h: accounts){
+        for (HashMap<String, String> h: accounts){
             if (h.containsValue(newName) && !(newName.equals(oldName))) {
                 System.out.println("Name is taken by another user!");
                 return 1;
             }
         }
-        for (HashMap h: accounts){
+        for (HashMap<String, String> h: accounts){
             if (h.containsValue(oldName)) {
                 h.replace("username",newName);
                 h.replace("hashPassword",newPass);
