@@ -37,7 +37,7 @@ public class KDC implements KDCInterface {
                     System.out.println("Request Received: " + socket);
 
                     // Create new thread to handle request
-                    Thread t = new Thread(new RequestHandler(socket));
+                    Thread t = new Thread(new KDCRequestHandler(socket));
                     t.start();
 
                 }
@@ -49,10 +49,10 @@ public class KDC implements KDCInterface {
 }
 
 // Slave handler class
-class RequestHandler implements Runnable {
+class KDCRequestHandler implements Runnable {
     private final Socket socket;
 
-    public RequestHandler(Socket socket) {
+    public KDCRequestHandler(Socket socket) {
         this.socket = socket;
     }
 

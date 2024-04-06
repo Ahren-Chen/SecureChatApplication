@@ -8,9 +8,12 @@ import com.example.server.EncryptionAES.AESUtil;
 import com.example.server.Request;
 import com.example.server.RequestTypes;
 
+import java.util.Base64;
+
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -57,5 +60,15 @@ public class AESTest {
         assertEquals(request.getUsername(), object.getUsername());
         assertEquals(request.getKey(), object.getKey());
 
+    }
+
+    @Test
+    public void secretKeyToStringToSecretKeyTest() {
+        SecretKey key = AESUtil.generateKey();
+        String encodedKey = Base64.getEncoder().encodeToString(key.getEncoded());
+        byte[] decodedKeyBytes = Base64.getDecoder().decode(encodedKey);
+        SecretKey decodedKey = new SecretKeySpec(decodedKeyBytes, 0, decodedKeyBytes.length, "AES");
+
+        assertEquals(key, decodedKey);
     }
 }
