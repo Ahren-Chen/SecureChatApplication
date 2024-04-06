@@ -82,4 +82,7 @@
     <string name="delete_accountHeader">Delete Account</string>
     <string name="delete">Delete</string>
     <string name="Deleteprevious">Previous</string>
+
+    <string name="Send">Send</string>
+    <string name="Enter_Message">Enter Message</string>
 </resources>
