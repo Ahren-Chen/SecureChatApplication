@@ -23,6 +23,11 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AESUtil {
+
+    //This should be randomly generated and passed from MAP to KDC for encrypt or decrypt
+    //Hard setting for now, to fix later (OPTIONAL)
+    public static IvParameterSpec iv = new IvParameterSpec(new byte[]{ 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8 });
+
     public static SecretKey generateKey() {
         KeyGenerator keyGenerator;
         try {
@@ -58,8 +63,7 @@ public class AESUtil {
         return new IvParameterSpec(iv);
     }
 
-    public static String encrypt(String input, SecretKey key,
-                                 IvParameterSpec iv) {
+    public static String encrypt(String input, SecretKey key) {
 
         Cipher cipher;
         try {
@@ -79,8 +83,7 @@ public class AESUtil {
 
     }
 
-    public static String decrypt(String cipherText, SecretKey key,
-                                 IvParameterSpec iv){
+    public static String decrypt(String cipherText, SecretKey key){
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -100,11 +103,12 @@ public class AESUtil {
     }
 
     public static SealedObject encryptObject(Serializable object,
-                                             SecretKey key, IvParameterSpec iv) {
+                                             SecretKey key) {
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+            System.out.println("IV: " + iv);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +120,7 @@ public class AESUtil {
     }
 
     public static Serializable decryptObject(SealedObject sealedObject,
-                                             SecretKey key, IvParameterSpec iv){
+                                             SecretKey key){
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -124,10 +128,13 @@ public class AESUtil {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
+        Serializable unsealedObject;
         try {
-            return (Serializable) sealedObject.getObject(cipher);
+            System.out.println("IV decrypted: " + iv);
+            unsealedObject = (Serializable) sealedObject.getObject(cipher);
         } catch (IOException | IllegalBlockSizeException | ClassNotFoundException | BadPaddingException e) {
             throw new RuntimeException(e);
         }
+        return unsealedObject;
     }
 }

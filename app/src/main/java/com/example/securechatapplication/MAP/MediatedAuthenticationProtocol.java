@@ -1,6 +1,7 @@
 package com.example.securechatapplication.MAP;
 
 import com.example.server.EncryptionAES.AESUtil;
+import com.example.server.KDC;
 import com.example.server.Response;
 import com.example.server.interfaces.MAPInterface;
 import com.example.server.Request;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.Objects;
 
 import javax.crypto.SealedObject;
@@ -19,15 +19,13 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
 public class MediatedAuthenticationProtocol extends MAPInterface {
-
     public static boolean authenticateLogin(String username, String password)  {
 
         Request request = new Request(RequestTypes.login, username);
 
         Thread t = new Thread(new NetworkHandler(request, username, password));
         t.start();
-        //TO DO: Send message to KDC with username, KDC returns an encrypted session key that is encrypted
-        //with the hash of the password
+
         try {
             t.join();
         } catch (InterruptedException e) {
@@ -55,6 +53,8 @@ class NetworkHandler implements Runnable {
     @Override
     public void run() {
         String emulatorHostAddress = "10.0.2.2";
+        SealedObject encryptedSessionKey;
+        String username;
         try (Socket socket = new Socket(emulatorHostAddress, SocketNames.KDCSocket.getValue())){
 
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -65,30 +65,28 @@ class NetworkHandler implements Runnable {
             while (response == null) {
                 response = (Response) in.readObject();
             }
+            System.out.println("Received Response from KDC");
+            out.close();
+            in.close();
 
-            SealedObject encryptedSessionKey = response.getObj();
-            IvParameterSpec iv = response.getIv();
-            String username = response.getUsername();
+            encryptedSessionKey = response.getObj();
+            username = response.getUsername();
 
-            if (encryptedSessionKey == null || iv == null) {
+            if (encryptedSessionKey == null) {
                 throw new RuntimeException("Response contains nulls from KDC");
             }
             else if (!Objects.equals(username, this.username)) {
                 throw new RuntimeException("Response to incorrect user");
             }
 
-            SecretKey passwordSecretKey = AESUtil.getKeyFromPassword(this.password, this.password);
-            SecretKey sessionKey = (SecretKey) AESUtil.decryptObject(encryptedSessionKey, passwordSecretKey, iv);
-
-            System.out.println(sessionKey.toString());
-
-            out.close();
-            in.close();
-
         } catch (IOException exception) {
-            System.out.println("Critical Error: " + exception);
+            throw new RuntimeException("Critical Error: " + exception);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        SecretKey passwordSecretKey = AESUtil.getKeyFromPassword(this.password, this.password);
+        SecretKey sessionKey = (SecretKey) AESUtil.decryptObject(encryptedSessionKey, passwordSecretKey);
+        System.out.println(sessionKey.toString());
     }
 }

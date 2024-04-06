@@ -12,7 +12,6 @@ import java.util.Base64;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -26,11 +25,10 @@ public class AESTest {
         String plainText = "testing123.;";
         String password = "password";
         String salt = "123456789";
-        IvParameterSpec ivParameterSpec = AESUtil.generateIv();
         SecretKey key = AESUtil.getKeyFromPassword(password,salt);
-        String cipherText = AESUtil.encrypt(plainText, key, ivParameterSpec);
+        String cipherText = AESUtil.encrypt(plainText, key);
         String decryptedCipherText = AESUtil.decrypt(
-                cipherText, key, ivParameterSpec);
+                cipherText, key);
 
         assertEquals(plainText, decryptedCipherText);
     }
@@ -38,11 +36,10 @@ public class AESTest {
     @Test
     public void testWithNoPasswordEncryptionAndDecryption() {
         String plainText = "`'][{}|:?><'`";
-        IvParameterSpec ivParameterSpec = AESUtil.generateIv();
         SecretKey key = AESUtil.generateKey();
-        String cipherText = AESUtil.encrypt(plainText, key, ivParameterSpec);
+        String cipherText = AESUtil.encrypt(plainText, key);
         String decryptedCipherText = AESUtil.decrypt(
-                cipherText, key, ivParameterSpec);
+                cipherText, key);
 
         assertEquals(plainText, decryptedCipherText);
     }
@@ -51,11 +48,10 @@ public class AESTest {
     public void objectEncryptionDecryptionTest() {
         Request request = new Request(RequestTypes.login, "hi");
         SecretKey key = AESUtil.generateKey();
-        IvParameterSpec ivParameterSpec = AESUtil.generateIv();
         SealedObject sealedObject = AESUtil.encryptObject(
-                request, key, ivParameterSpec);
+                request, key);
         Request object = (Request) AESUtil.decryptObject(
-                sealedObject, key, ivParameterSpec);
+                sealedObject, key);
         assertEquals(request.getType(), object.getType());
         assertEquals(request.getUsername(), object.getUsername());
         assertEquals(request.getKey(), object.getKey());

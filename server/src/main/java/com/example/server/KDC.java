@@ -13,10 +13,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
@@ -24,11 +22,8 @@ import javax.crypto.spec.IvParameterSpec;
 public class KDC implements KDCInterface {
     private static HashMap<String, Key> keysDB;
 
-    public KDC() {
-        keysDB = new HashMap<>();
-    }
-
     public static void main(String[] args) {
+        keysDB = new HashMap<>();
         try {
             // Create server socket
 
@@ -64,8 +59,8 @@ class KDCRequestHandler implements Runnable {
     public void run() {
         try {
             // Open input and output streams
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
             // Read input from slave
             Request message = (Request) in.readObject();
@@ -74,30 +69,32 @@ class KDCRequestHandler implements Runnable {
             // Process input (e.g., perform some task)
             if (message.getType() == RequestTypes.login) {
                 SecretKey sessionKey = AESUtil.generateKey();
-                IvParameterSpec iv = AESUtil.generateIv();
+                System.out.println("KDC sessionKey: " + sessionKey.toString());
                 Response KDCResponse;
 
                 try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
-                    ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
                     ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
+                    ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
 
                     Request getAccountSecretKey = new Request(RequestTypes.getUserSecretKey, message.getUsername());
                     accountOut.writeObject(getAccountSecretKey);
+                    System.out.println("Sent request to Account Management");
 
                     Response accountResponse = null;
                     while (accountResponse == null) {
                         accountResponse = (Response) accountIn.readObject();
                     }
-
+                    System.out.println("Received response from Account Management");
                     SecretKey accountSecretKey = accountResponse.getKey();
 
-                    SealedObject encryptedKDCKey = AESUtil.encryptObject(sessionKey, accountSecretKey, iv);
-                    KDCResponse = new Response(encryptedKDCKey, iv, message.getUsername());
+                    SealedObject encryptedKDCKey = AESUtil.encryptObject(sessionKey, accountSecretKey);
+                    KDCResponse = new Response(encryptedKDCKey, message.getUsername());
                     accountIn.close();
                     accountOut.close();
                 }
 
                 out.writeObject(KDCResponse);
+                System.out.println("Sent response to MAP");
             }
 
             // Close streams and socket
