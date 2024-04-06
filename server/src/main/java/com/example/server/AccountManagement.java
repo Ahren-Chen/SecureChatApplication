@@ -30,8 +30,7 @@ public class AccountManagement implements AccountManagementInterface {
 
         HashMap<String, String> user1 = new HashMap<>();
         String user1Password = "abcd";
-        String user1RandomSalt = "123456789";
-        SecretKey user1SecretKey = AESUtil.getKeyFromPassword(user1Password, user1RandomSalt);
+        SecretKey user1SecretKey = AESUtil.getKeyFromPassword(user1Password, user1Password);
         byte[] user1SecretKeyData = user1SecretKey.getEncoded();
 
         user1.put("username", "ahren657");
@@ -40,8 +39,7 @@ public class AccountManagement implements AccountManagementInterface {
 
         HashMap<String, String> user2 = new HashMap<>();
         String user2Password = "1234";
-        String user2RandomSalt = "987654321";
-        SecretKey user2SecretKey = AESUtil.getKeyFromPassword(user2Password, user2RandomSalt);
+        SecretKey user2SecretKey = AESUtil.getKeyFromPassword(user2Password, user2Password);
         byte[] user2SecretKeyData = user2SecretKey.getEncoded();
 
         user1.put("username", "John");
@@ -66,8 +64,7 @@ public class AccountManagement implements AccountManagementInterface {
             }
         }
 
-        String userRandomSalt = "156643";
-        SecretKey userSecretKey = AESUtil.getKeyFromPassword(newPass, userRandomSalt);
+        SecretKey userSecretKey = AESUtil.getKeyFromPassword(newPass, newPass);
         byte[] userSecretKeyData = userSecretKey.getEncoded();
 
         HashMap<String,String> newUser = new HashMap<>();
@@ -96,8 +93,7 @@ public class AccountManagement implements AccountManagementInterface {
         }
         for (HashMap<String, String> h: accounts){
 
-            String userRandomSalt = "156656143";
-            SecretKey userSecretKey = AESUtil.getKeyFromPassword(newPass, userRandomSalt);
+            SecretKey userSecretKey = AESUtil.getKeyFromPassword(newPass, newPass);
             byte[] userSecretKeyData = userSecretKey.getEncoded();
 
             if (h.containsValue(oldName)) {
@@ -139,14 +135,14 @@ public class AccountManagement implements AccountManagementInterface {
                                         found = true;
                                         String encodedKey = account.get("secretPasswordKey");
                                         byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
-                                        out.writeObject(new Response(new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES")));
+                                        out.writeObject(new Response(new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES"), username));
 
                                         break;
                                     }
                                 }
 
                                 if (!found) {
-                                    out.writeObject(new Response(null));
+                                    out.writeObject(new Response(null, null));
                                 }
                             }
                         }

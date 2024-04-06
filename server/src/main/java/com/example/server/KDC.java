@@ -1,12 +1,15 @@
 package com.example.server;
 
+import static com.example.server.SocketNames.AccountManagementSocket;
 import static com.example.server.SocketNames.KDCSocket;
 
+import com.example.server.EncryptionAES.AESUtil;
 import com.example.server.interfaces.KDCInterface;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.Key;
@@ -14,7 +17,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import javax.crypto.KeyGenerator;
+import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 
 public class KDC implements KDCInterface {
     private static HashMap<String, Key> keysDB;
@@ -67,7 +72,33 @@ class KDCRequestHandler implements Runnable {
             System.out.println("Request from MAP: " + message.getType().toString());
 
             // Process input (e.g., perform some task)
-            out.writeObject(generateKey());
+            if (message.getType() == RequestTypes.login) {
+                SecretKey sessionKey = AESUtil.generateKey();
+                IvParameterSpec iv = AESUtil.generateIv();
+                Response KDCResponse;
+
+                try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
+                    ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
+                    ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
+
+                    Request getAccountSecretKey = new Request(RequestTypes.getUserSecretKey, message.getUsername());
+                    accountOut.writeObject(getAccountSecretKey);
+
+                    Response accountResponse = null;
+                    while (accountResponse == null) {
+                        accountResponse = (Response) accountIn.readObject();
+                    }
+
+                    SecretKey accountSecretKey = accountResponse.getKey();
+
+                    SealedObject encryptedKDCKey = AESUtil.encryptObject(sessionKey, accountSecretKey, iv);
+                    KDCResponse = new Response(encryptedKDCKey, iv, message.getUsername());
+                    accountIn.close();
+                    accountOut.close();
+                }
+
+                out.writeObject(KDCResponse);
+            }
 
             // Close streams and socket
             in.close();
@@ -78,17 +109,5 @@ class KDCRequestHandler implements Runnable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static SecretKey generateKey() {
-        SecretKey key;
-        try {
-            KeyGenerator generator = KeyGenerator.getInstance("AES");
-            generator.init(256);
-            key = generator.generateKey();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        return key;
     }
 }
