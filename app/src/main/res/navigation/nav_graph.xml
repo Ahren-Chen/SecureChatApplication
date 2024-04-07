@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_MessagesFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_MessagesFragment_to_accountManagementFragment"
+            app:destination="@id/accountManagementFragment" />
     </fragment>
 
     <fragment
@@ -66,6 +69,9 @@
         <action
             android:id="@+id/action_CallingFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_CallingFragment_to_accountManagementFragment"
+            app:destination="@id/accountManagementFragment" />
     </fragment>
 
     <fragment
@@ -115,6 +121,18 @@
         <action
             android:id="@+id/action_accountManagementFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_to_CallingFragment2"
+            app:destination="@id/CallingFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_self"
+            app:destination="@id/accountManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/CreateAccountFragment"
@@ -131,6 +149,18 @@
         <action
             android:id="@+id/action_CreateAccountFragment_to_ResponseFailureFragment"
             app:destination="@id/ResponseFailureFragment" />
+        <action
+            android:id="@+id/action_CreateAccountFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_CreateAccountFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_CreateAccountFragment_to_HomeFragment2"
+            app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_CreateAccountFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
     </fragment>
 
     <fragment
@@ -148,6 +178,15 @@
         <action
             android:id="@+id/action_EditAccountFragment_to_ResponseFailureFragment"
             app:destination="@id/ResponseFailureFragment" />
+        <action
+            android:id="@+id/action_EditAccountFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_EditAccountFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_EditAccountFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
     </fragment>
 
     <fragment
@@ -168,6 +207,15 @@
         <action
             android:id="@+id/action_DeleteAccountFragment_to_ResponseFailureFragment2"
             app:destination="@id/ResponseFailureFragment" />
+        <action
+            android:id="@+id/action_DeleteAccountFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_DeleteAccountFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_DeleteAccountFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
     </fragment>
 
     <fragment
@@ -179,6 +227,15 @@
         <action
             android:id="@+id/action_ResponseSuccessFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_ResponseSuccessFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_ResponseSuccessFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
+        <action
+            android:id="@+id/action_ResponseSuccessFragment_to_accountManagementFragment"
+            app:destination="@id/accountManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/ResponseFailureFragment"
@@ -189,6 +246,15 @@
         <action
             android:id="@+id/action_ResponseFailureFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_ResponseFailureFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_ResponseFailureFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
+        <action
+            android:id="@+id/action_ResponseFailureFragment_to_accountManagementFragment"
+            app:destination="@id/accountManagementFragment" />
     </fragment>
 
 </navigation>

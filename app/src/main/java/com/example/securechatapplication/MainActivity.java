@@ -1,19 +1,17 @@
 package com.example.securechatapplication;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.securechatapplication.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import java.util.Objects;
 
@@ -57,6 +55,30 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
                 }
 
+                else if (currentFragmentId==R.id.CreateAccountFragment){
+                    navController.navigate(R.id.action_CreateAccountFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId==R.id.EditAccountFragment){
+                    navController.navigate(R.id.action_EditAccountFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId==R.id.DeleteAccountFragment){
+                    navController.navigate(R.id.action_DeleteAccountFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId==R.id.accountManagementFragment){
+                    navController.navigate(R.id.action_accountManagementFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseSuccessFragment){
+                    navController.navigate(R.id.action_ResponseSuccessFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseFailureFragment){
+                    navController.navigate(R.id.action_ResponseFailureFragment_to_MessagesFragment);
+                }
+
                 return true;
 
             }
@@ -72,6 +94,30 @@ public class MainActivity extends AppCompatActivity {
 
                 else if (currentFragmentId == R.id.MessagesFragment) {
                     navController.navigate(R.id.action_MessagesFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId==R.id.CreateAccountFragment){
+                    navController.navigate(R.id.action_CreateAccountFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId==R.id.EditAccountFragment){
+                    navController.navigate(R.id.action_EditAccountFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId==R.id.DeleteAccountFragment){
+                    navController.navigate(R.id.action_DeleteAccountFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId==R.id.accountManagementFragment){
+                    navController.navigate(R.id.action_accountManagementFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseSuccessFragment){
+                    navController.navigate(R.id.action_ResponseSuccessFragment_to_HomeFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseFailureFragment){
+                    navController.navigate(R.id.action_ResponseFailureFragment_to_HomeFragment);
                 }
 
                 return true;
@@ -90,7 +136,66 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.action_MessagesFragment_to_CallingFragment);
                 }
 
+                else if (currentFragmentId==R.id.CreateAccountFragment){
+                    navController.navigate(R.id.action_CreateAccountFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId==R.id.EditAccountFragment){
+                    navController.navigate(R.id.action_EditAccountFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId==R.id.DeleteAccountFragment){
+                    navController.navigate(R.id.action_DeleteAccountFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId==R.id.accountManagementFragment){
+                    navController.navigate(R.id.action_accountManagementFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseSuccessFragment){
+                    navController.navigate(R.id.action_ResponseSuccessFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseFailureFragment){
+                    navController.navigate(R.id.action_ResponseFailureFragment_to_CallingFragment);
+                }
+
                 return true;
+            }
+
+            else if (item.getItemId()==R.id.accountManagementFragment){
+                int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+
+                if (currentFragmentId == R.id.HomeFragment) {
+                    navController.navigate(R.id.action_HomeFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId == R.id.MessagesFragment) {
+                    navController.navigate(R.id.action_MessagesFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId==R.id.CreateAccountFragment){
+                    navController.navigate(R.id.action_CreateAccountFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId==R.id.EditAccountFragment){
+                    navController.navigate(R.id.action_EditAccountFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId==R.id.DeleteAccountFragment){
+                    navController.navigate(R.id.action_DeleteAccountFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseSuccessFragment){
+                    navController.navigate(R.id.action_ResponseSuccessFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId==R.id.ResponseFailureFragment){
+                    navController.navigate(R.id.action_ResponseFailureFragment_to_accountManagementFragment);
+                }
+
+                return true;
+
             }
 
             return false;
