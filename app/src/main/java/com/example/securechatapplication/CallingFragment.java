@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentCallBinding;
+
+import java.util.ArrayList;
 
 public class CallingFragment extends Fragment {
 
@@ -38,17 +41,19 @@ public class CallingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //TO DO: FILL IN AN API CALL TO GET ALL USERS FROM ACCOUNT MANAGEMENT
-        int buttons = 5;
-        for (int i = 0; i < buttons; i++) {
-            addButton();
+        ArrayList<String> users = MediatedAuthenticationProtocol.getAllUsers();
+        if (users == null) {
+            throw new RuntimeException("No users returned");
+        }
+        for (String username : users) {
+            addButton(username);
         }
     }
 
-    private void addButton() {
+    private void addButton(String name) {
         LinearLayout layout = binding.getRoot().findViewById(R.id.select_call_layout);
         btn = (Button)getLayoutInflater().inflate(R.layout.fragment_button_default, null);
-        btn.setText(R.string.next);
+        btn.setText(name);
         btn.setOnClickListener(view -> NavHostFragment.findNavController(CallingFragment.this)
                 .navigate(R.id.action_CallingFragment_to_CallingSomeoneFragment));
 

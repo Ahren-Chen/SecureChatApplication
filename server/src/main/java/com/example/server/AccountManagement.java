@@ -148,6 +148,18 @@ public class AccountManagement implements AccountManagementInterface {
                             }
                         }
                     }
+                    else if (message.getType() == RequestTypes.getAllUsers) {
+                        System.out.println("Request received to get all usernames");
+
+                        ArrayList<String> users = new ArrayList<>();
+
+                        for (HashMap<String, String> account : accounts) {
+                            users.add(account.get("username"));
+                            System.out.println(account.get("username"));
+                        }
+
+                        out.writeObject(new Response(users, message.getUsername()));
+                    }
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

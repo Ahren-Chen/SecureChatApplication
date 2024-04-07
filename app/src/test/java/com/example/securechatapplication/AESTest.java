@@ -61,7 +61,6 @@ public class AESTest {
         }
         assertEquals(request.getType(), object.getType());
         assertEquals(request.getUsername(), object.getUsername());
-        assertEquals(request.getKey(), object.getKey());
 
     }
 

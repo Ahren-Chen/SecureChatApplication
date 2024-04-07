@@ -1,7 +1,9 @@
 package com.example.server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
@@ -12,6 +14,8 @@ public class Response implements Serializable {
     private final SealedObject obj;
     private final String username;
     private final long timeStampMili;
+    private final ArrayList<String> users;
+
 
     public Response(SecretKey key, String username) {
         this.key = key;
@@ -20,6 +24,8 @@ public class Response implements Serializable {
 
         Date date = new Date();
         this.timeStampMili = date.getTime();
+
+        this.users = null;
     }
     public Response(SealedObject obj, String username) {
         this.obj = obj;
@@ -28,6 +34,20 @@ public class Response implements Serializable {
 
         Date date = new Date();
         this.timeStampMili = date.getTime();
+
+        this.users = null;
+    }
+
+    public Response(ArrayList<String> users, String username) {
+        this.key = null;
+        this.obj = null;
+
+        Date date = new Date();
+        this.timeStampMili = date.getTime();
+        this.username = username;
+
+        this.users = users;
+
     }
 
     public SecretKey getKey() {
@@ -38,5 +58,9 @@ public class Response implements Serializable {
 
     public long getTimeStampMili() {
         return timeStampMili;
+    }
+
+    public ArrayList<String> getUsers() {
+        return users;
     }
 }

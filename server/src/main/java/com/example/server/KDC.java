@@ -13,20 +13,26 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
 public class KDC implements KDCInterface {
-    private static HashMap<String, HashMap<SecretKey, Long>> keysDB;
+    private static HashMap<String, SecretKey> sessionKeysDB;
+    private static HashMap<List<String>, SecretKey> chatKeysDB;
+    private static HashMap<SecretKey, Long> timeStampDB;
 
     public static void main(String[] args) {
-        keysDB = new HashMap<>();
-        keysDB.put("ahren657", new HashMap<>());
-        keysDB.put("John", new HashMap<>());
+        sessionKeysDB = new HashMap<>();
+        chatKeysDB = new HashMap<>();
+        timeStampDB = new HashMap<>();
         try {
             // Create server socket
 
@@ -40,7 +46,7 @@ public class KDC implements KDCInterface {
                     System.out.println("Request Received: " + socket);
 
                     // Create new thread to handle request
-                    KDCRequestHandler requestHandler = new KDCRequestHandler(socket);
+                    KDCRequestHandler requestHandler = new KDCRequestHandler(socket, sessionKeysDB, timeStampDB, chatKeysDB);
                     Thread t = new Thread(requestHandler);
                     t.start();
 
@@ -55,8 +61,8 @@ public class KDC implements KDCInterface {
                     Long timeStamp = requestHandler.getNewKeyTimeStamp();
                     String username = requestHandler.getUsername();
                     if (newKey != null && username != null && requestHandler.isSuccess()) {
-                        HashMap<SecretKey, Long> allUserKeys = keysDB.get(username);
-                        allUserKeys.put(newKey, timeStamp);
+                        sessionKeysDB.put(username, newKey);
+                        timeStampDB.put(newKey, timeStamp);
                     }
 
                 }
@@ -74,8 +80,15 @@ class KDCRequestHandler implements Runnable {
     private Long newKeyTimeStamp;
     private String username;
     private boolean success = false;
-    public KDCRequestHandler(Socket socket) {
+    private final HashMap<String, SecretKey> sessionKeyDB;
+    private final HashMap<SecretKey, Long> timeStampDB;
+    private final HashMap<List<String>, SecretKey> chatKeysDB;
+    public KDCRequestHandler(Socket socket, HashMap<String, SecretKey> sessionKeysDB, HashMap<SecretKey, Long> timeStampDB,
+                             HashMap<List<String>, SecretKey> chatKeysDB) {
         this.socket = socket;
+        this.sessionKeyDB = sessionKeysDB;
+        this.timeStampDB = timeStampDB;
+        this.chatKeysDB = chatKeysDB;
     }
 
     public void run() {
@@ -86,12 +99,12 @@ class KDCRequestHandler implements Runnable {
 
             // Read input from MAP
             Request message = (Request) in.readObject();
-            System.out.println("Request from MAP: " + message.getType().toString());
+            System.out.println("Request from MAP: " + message.getType());
 
             // Process input (e.g., perform some task)
             if (message.getType() == RequestTypes.login) {
                 SecretKey sessionKey = AESUtil.generateKey();
-                System.out.println("KDC sessionKey: " + sessionKey.toString());
+                username = message.getUsername();
                 Response KDCResponse;
 
                 //Connect to the Account Management server
@@ -112,6 +125,7 @@ class KDCRequestHandler implements Runnable {
 
                     if (Objects.equals(accountResponse.getUsername(), "User not found")) {
                         KDCResponse = new Response((SecretKey) null, message.getUsername());
+                        System.out.println("User not found");
                         success = false;
                     }
                     else {
@@ -134,22 +148,72 @@ class KDCRequestHandler implements Runnable {
                 this.newKey = sessionKey;
                 this.username = message.getUsername();
                 out.writeObject(KDCResponse);
-                System.out.println("Sent response to MAP");
+                System.out.println("Sent response to MAP, logging in: " + this.success);
             }
 
-            else if (message.getType() == RequestTypes.getAllUsers) {
+            else if (message.getType() == null) {
+                SecretKey sessionKey = sessionKeyDB.get(message.getUsername());
+                Date date = new Date();
+                Long keyTimeStamp = timeStampDB.get(sessionKey);
+                Response KDCResponse;
 
-                //TODO LATER
-                /*try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
-                    ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
-                    ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
+                if (keyTimeStamp == null) {
+                    throw new RuntimeException("No key found in time stamp DB");
+                }
 
+                if (date.getTime() - keyTimeStamp < 7.2 * Math.pow(10, 6)) {
+                    SealedObject encryptedType = message.getObj();
 
-                    //Request the stored secretKey made from password for user
-                    Request getAccountSecretKey = new Request(RequestTypes.getUserSecretKey, message.getUsername());
-                    accountOut.writeObject(getAccountSecretKey);
-                    System.out.println("Sent request to Account Management");
-                }*/
+                    RequestTypes unencryptedType;
+                    try {
+                        unencryptedType = (RequestTypes) AESUtil.decryptObject(encryptedType, sessionKey);
+                    } catch (BadPaddingException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    if (unencryptedType == RequestTypes.getAllUsers) {
+                        try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
+                            ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
+                            ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
+
+                            //Request the stored secretKey made from password for user
+                            Request getAccountSecretKey = new Request(RequestTypes.getAllUsers, message.getUsername());
+                            accountOut.writeObject(getAccountSecretKey);
+                            System.out.println("Sent request to Account Management");
+
+                            //Get response
+                            Response accountResponse = null;
+                            while (accountResponse == null) {
+                                accountResponse = (Response) accountIn.readObject();
+                            }
+
+                            if (Objects.equals(accountResponse.getUsername(), "User not found")) {
+                                KDCResponse = new Response((SecretKey) null, message.getUsername());
+                                success = false;
+                            } else {
+                                System.out.println("Received response from Account Management");
+                                ArrayList<String> accountUsers = accountResponse.getUsers();
+                                SealedObject encryptedUsers = AESUtil.encryptObject(accountUsers, sessionKey);
+
+                                KDCResponse = new Response(encryptedUsers, message.getUsername());
+                                success = true;
+                            }
+                            accountIn.close();
+                            accountOut.close();
+                        }
+                    }
+                    else {
+                        KDCResponse = new Response((SecretKey) null, message.getUsername());
+                        success = false;
+                    }
+                }
+                else {
+                    success = false;
+                    KDCResponse = new Response((SecretKey) null, message.getUsername());
+                }
+
+                out.writeObject(KDCResponse);
+                System.out.println("Sent response to MAP, get users: " + this.success);
             }
 
             // Close streams and socket
@@ -163,7 +227,7 @@ class KDCRequestHandler implements Runnable {
         }
     }
 
-    public long getNewKeyTimeStamp() {
+    public Long getNewKeyTimeStamp() {
         return newKeyTimeStamp;
     }
 
