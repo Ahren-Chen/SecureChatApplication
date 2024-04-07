@@ -161,7 +161,10 @@ class KDCRequestHandler implements Runnable {
                     throw new RuntimeException("No key found in time stamp DB");
                 }
 
+                //Checking if it has been more than 2 hours since key distribution
+                //For testing, sometimes it is set to 2 seconds
                 if (date.getTime() - keyTimeStamp < 7.2 * Math.pow(10, 6)) {
+                //if (date.getTime() - keyTimeStamp < 2000) {
                     SealedObject encryptedType = message.getObj();
 
                     RequestTypes unencryptedType;
@@ -188,7 +191,7 @@ class KDCRequestHandler implements Runnable {
                             }
 
                             if (Objects.equals(accountResponse.getUsername(), "User not found")) {
-                                KDCResponse = new Response((SecretKey) null, message.getUsername());
+                                KDCResponse = new Response((SealedObject) null, message.getUsername());
                                 success = false;
                             } else {
                                 System.out.println("Received response from Account Management");
@@ -203,13 +206,13 @@ class KDCRequestHandler implements Runnable {
                         }
                     }
                     else {
-                        KDCResponse = new Response((SecretKey) null, message.getUsername());
+                        KDCResponse = new Response((SealedObject) null, message.getUsername());
                         success = false;
                     }
                 }
                 else {
                     success = false;
-                    KDCResponse = new Response((SecretKey) null, message.getUsername());
+                    KDCResponse = new Response((SealedObject) null, message.getUsername(), new TimeOutException());
                 }
 
                 out.writeObject(KDCResponse);

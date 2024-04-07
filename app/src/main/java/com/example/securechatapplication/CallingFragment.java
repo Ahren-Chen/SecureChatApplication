@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentCallBinding;
+import com.example.server.TimeOutException;
 
 import java.util.ArrayList;
 
@@ -41,12 +42,19 @@ public class CallingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<String> users = MediatedAuthenticationProtocol.getAllUsers();
-        if (users == null) {
-            throw new RuntimeException("No users returned");
-        }
-        for (String username : users) {
-            addButton(username);
+        try {
+            ArrayList<String> users = MediatedAuthenticationProtocol.getAllUsers();
+            if (users == null) {
+                throw new RuntimeException("No users returned");
+            }
+            for (String username : users) {
+                addButton(username);
+            }
+        } catch (TimeOutException e) {
+            requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
+            requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
+            NavHostFragment.findNavController(CallingFragment.this)
+                    .navigate(R.id.action_CallingFragment_to_LoginFragment);
         }
     }
 

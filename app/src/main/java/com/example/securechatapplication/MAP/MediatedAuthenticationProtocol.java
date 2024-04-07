@@ -2,6 +2,7 @@ package com.example.securechatapplication.MAP;
 
 import com.example.server.EncryptionAES.AESUtil;
 import com.example.server.Response;
+import com.example.server.TimeOutException;
 import com.example.server.interfaces.MAPInterface;
 import com.example.server.Request;
 import com.example.server.RequestTypes;
@@ -49,7 +50,7 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
         }
     }
 
-    public static ArrayList<String> getAllUsers() {
+    public static ArrayList<String> getAllUsers() throws TimeOutException {
         SecretKey sessionKey = userKeys.get("sessionKey");
         if (sessionKey == null) {
             throw new RuntimeException("No session key");
@@ -69,7 +70,10 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
             System.out.println("Interrupted execution: " + e);
         }
 
-        if (networkHandler.result()) {
+        if (networkHandler.isTimeOut()) {
+            throw new TimeOutException();
+        }
+        else if (networkHandler.result()) {
             return networkHandler.getUsers();
         }
         else {
@@ -85,6 +89,7 @@ class NetworkHandler implements Runnable {
     private ArrayList<String> users;
     private boolean success = false;
     private SecretKey sessionKey = null;
+    private boolean timeOut = false;
     public NetworkHandler(Request request, String username, SecretKey sessionKey) {
         this.request = request;
         this.password = null;
@@ -105,6 +110,7 @@ class NetworkHandler implements Runnable {
         String emulatorHostAddress = "10.0.2.2";
         SealedObject encryptedPackage;
         String username;
+        Exception exception;
 
         try (Socket socket = new Socket(emulatorHostAddress, SocketNames.KDCSocket.getValue())){
 
@@ -130,9 +136,11 @@ class NetworkHandler implements Runnable {
             //Get the encrypted sessionKey from logging in
             encryptedPackage = response.getObj();
             username = response.getUsername();
+            exception = response.getException();
 
-        } catch (IOException exception) {
-            throw new RuntimeException("Critical Error: " + exception);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Critical Error: " + e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -140,10 +148,6 @@ class NetworkHandler implements Runnable {
         if (!Objects.equals(username, this.username)) {
             this.success = false;
             System.out.println("Sent to wrong user, current and package: " + username + " " + this.username);
-        }
-        else if (encryptedPackage == null) {
-            System.out.println("No key received");
-            this.success = false;
         }
         else if (request.getType() == RequestTypes.login){
             //Decrypt the key and store it
@@ -166,8 +170,11 @@ class NetworkHandler implements Runnable {
             } catch (BadPaddingException e) {
                 throw new RuntimeException(e);
             }
-
-            if (type == RequestTypes.getAllUsers) {
+            if (exception != null) {
+                this.success = false;
+                this.timeOut = true;
+            }
+            else if (type == RequestTypes.getAllUsers) {
                 try {
                     System.out.println("Getting users from KDC");
                     @SuppressWarnings("unchecked")
@@ -199,5 +206,9 @@ class NetworkHandler implements Runnable {
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isTimeOut() {
+        return timeOut;
     }
 }
