@@ -119,7 +119,10 @@ class KDCRequestHandler implements Runnable {
                         SecretKey accountSecretKey = accountResponse.getKey();
 
                         //Encrypt the session key with password secret key
-                        SealedObject encryptedKDCKey = AESUtil.encryptObject(sessionKey, accountSecretKey);
+                        Response username_Key_package = new Response(sessionKey, username);
+                        this.newKeyTimeStamp = username_Key_package.getTimeStampMili();
+
+                        SealedObject encryptedKDCKey = AESUtil.encryptObject(username_Key_package, accountSecretKey);
                         KDCResponse = new Response(encryptedKDCKey, message.getUsername());
                         success = true;
                     }
@@ -129,7 +132,6 @@ class KDCRequestHandler implements Runnable {
 
                 //Record some information and send the package back to MAP
                 this.newKey = sessionKey;
-                this.newKeyTimeStamp = KDCResponse.getTimeStampMili();
                 this.username = message.getUsername();
                 out.writeObject(KDCResponse);
                 System.out.println("Sent response to MAP");

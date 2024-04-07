@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Objects;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
@@ -69,7 +70,7 @@ class NetworkHandler implements Runnable {
 
         //Setting up a socket to connect to the already running KDC server
         String emulatorHostAddress = "10.0.2.2";
-        SealedObject encryptedSessionKey;
+        SealedObject encryptedPackage;
         String username;
 
         try (Socket socket = new Socket(emulatorHostAddress, SocketNames.KDCSocket.getValue())){
@@ -94,7 +95,7 @@ class NetworkHandler implements Runnable {
 
             //This is purely for login now, but grouped together as general
             //Get the encrypted sessionKey from logging in
-            encryptedSessionKey = response.getObj();
+            encryptedPackage = response.getObj();
             username = response.getUsername();
 
         } catch (IOException exception) {
@@ -107,15 +108,21 @@ class NetworkHandler implements Runnable {
             this.success = false;
             System.out.println("Sent to wrong user");
         }
-        else if (encryptedSessionKey == null) {
+        else if (encryptedPackage == null) {
             System.out.println("No key received");
             this.success = false;
         }
         else {
             //Decrypt the key and store it
             SecretKey passwordSecretKey = AESUtil.getKeyFromPassword(this.password, this.password);
-            this.sessionKey = (SecretKey) AESUtil.decryptObject(encryptedSessionKey, passwordSecretKey);
-            this.success = true;
+            try {
+                Response unencryptedPackage = (Response) AESUtil.decryptObject(encryptedPackage, passwordSecretKey);
+                this.sessionKey = unencryptedPackage.getKey();
+
+                this.success = Objects.equals(unencryptedPackage.getUsername(), this.username);
+            } catch (BadPaddingException e) {
+                this.success = false;
+            }
         }
     }
 
