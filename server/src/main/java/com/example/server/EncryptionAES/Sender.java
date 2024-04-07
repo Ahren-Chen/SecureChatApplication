@@ -1,11 +1,14 @@
+package com.example.client;
+
 import com.example.server.EncryptionAES.AESUtil;
 
+import javax.crypto.SecretKey;
+
 public class Sender {
-    public static void main(String[] args) {
-        String message = "Hello, this is a secret message!";
-        SecretKey key = AESUtil.generateKey();
+    public static void sendMessage(String message, SecretKey key) {
         String encryptedMessage = AESUtil.encrypt(message, key);
 
-        // Send encryptedMessage to the receiver
+        // sending encryptedMessage to the receiver
+        System.out.println("Sending encrypted message: " + encryptedMessage);
     }
 }
