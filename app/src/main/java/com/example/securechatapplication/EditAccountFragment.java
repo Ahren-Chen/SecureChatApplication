@@ -55,6 +55,7 @@ public class EditAccountFragment extends Fragment{
             EditText authText = binding.getRoot().findViewById(R.id.editTextEditSetAuthority);
             String authority = authText.getText().toString();
 
+            //Fail if inputs left blank
             if((TextUtils.isEmpty(oldName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(authority)) ||TextUtils.isEmpty(username)){
                 NavHostFragment.findNavController(EditAccountFragment.this)
                         .navigate(R.id.action_EditAccountFragment_to_ResponseFailureFragment);

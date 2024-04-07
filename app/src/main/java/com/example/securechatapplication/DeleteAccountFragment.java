@@ -40,16 +40,16 @@ public class DeleteAccountFragment extends Fragment{
         binding.DeleteAccountPreviousButton.setOnClickListener(view1 -> NavHostFragment.findNavController(DeleteAccountFragment.this)
                 .navigate(R.id.action_DeleteAccountFragment_to_accountManagementFragment));
 
-
+        //On delete button press
         binding.DeleteAccountButton.setOnClickListener(go ->{
 
-            if(accounts.deleteAccount(null)){//to do?
+            if(accounts.deleteAccount(null)){//to do, null is currently passed
                 NavHostFragment.findNavController(DeleteAccountFragment.this)
-                        .navigate(R.id.action_DeleteAccountFragment_to_ResponseSuccessFragment);
+                        .navigate(R.id.action_DeleteAccountFragment_to_ResponseSuccessFragment);//success
             }
             else{
                 NavHostFragment.findNavController(DeleteAccountFragment.this)
-                        .navigate(R.id.action_DeleteAccountFragment_to_ResponseFailureFragment);
+                        .navigate(R.id.action_DeleteAccountFragment_to_ResponseFailureFragment);//failure
             }
         });
     }

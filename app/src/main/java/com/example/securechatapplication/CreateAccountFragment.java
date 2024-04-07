@@ -14,10 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
-import com.example.securechatapplication.databinding.FragmentAccountManagementBinding;
-import com.example.securechatapplication.databinding.FragmentCallBinding;
 import com.example.securechatapplication.databinding.FragmentCreateAccountBinding;
-import com.example.securechatapplication.databinding.FragmentHomeBinding;
 
 public class CreateAccountFragment extends Fragment {
     private FragmentCreateAccountBinding binding;
@@ -69,6 +66,7 @@ public class CreateAccountFragment extends Fragment {
             }
         });
 
+        //On create button click
         binding.CreateAccountButton.setOnClickListener(view1 -> {
             EditText usernameInput = binding.getRoot().findViewById(R.id.editTextCreateAccountEmail);
             String username = usernameInput.getText().toString();
