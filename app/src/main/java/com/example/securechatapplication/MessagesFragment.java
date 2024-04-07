@@ -12,15 +12,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentMessagesBinding;
-import com.example.server.TimeOutException;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
+import android.content.Context;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 public class MessagesFragment extends Fragment {
 
     private EditText editTextMessage;
@@ -28,32 +26,20 @@ public class MessagesFragment extends Fragment {
     private Button buttonSend;
     private Spinner spinnerChatWith;
     private FragmentMessagesBinding binding;
-
+    private static final String FILE_NAME = "chat_history.txt";
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMessagesBinding.inflate(inflater, container, false);
+        View view = inflater.inflate(R.layout.fragment_messages, container, false);
 
-        editTextMessage = binding.getRoot().findViewById(R.id.editTextMessage);
-        textViewChat = binding.getRoot().findViewById(R.id.textViewChat);
-        buttonSend = binding.getRoot().findViewById(R.id.buttonSend);
-        spinnerChatWith = binding.getRoot().findViewById(R.id.spinnerChatWith);
+        editTextMessage = view.findViewById(R.id.editTextMessage);
+        textViewChat = view.findViewById(R.id.textViewChat);
+        buttonSend = view.findViewById(R.id.buttonSend);
+        spinnerChatWith = view.findViewById(R.id.spinnerChatWith);
 
         // Set up the adapter for the spinner
-        ArrayList<String> users = new ArrayList<>();
-        try {
-            users = MediatedAuthenticationProtocol.getAllUsers();
-            if (users == null) {
-                throw new RuntimeException("No users returned");
-            }
-        } catch (TimeOutException e) {
-            requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
-            requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
-            NavHostFragment.findNavController(MessagesFragment.this)
-                    .navigate(R.id.action_MessagesFragment_to_LoginFragment);
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                binding.getRoot().getContext(), android.R.layout.simple_spinner_dropdown_item, users);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.chat_contacts, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerChatWith.setAdapter(adapter);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -63,23 +49,41 @@ public class MessagesFragment extends Fragment {
             }
         });
 
-        return binding.getRoot();
+        return view;
     }
 
     private void sendMessage() {
         String message = editTextMessage.getText().toString().trim();
         String selectedContact = spinnerChatWith.getSelectedItem().toString();
         if (!message.isEmpty()) {
-            // Format and display the message
-            String formattedMessage = "Me to " + selectedContact + ": " + message + "\n";
+            String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+            String formattedMessage = currentTime + " - Me to " + selectedContact + ": " + message + "\n";
             textViewChat.append(formattedMessage);
 
-            // Clear the input field for the next message
+            appendToFile(formattedMessage);
+
             editTextMessage.setText("");
         }
     }
 
-
+    private void appendToFile(String text) {
+        FileOutputStream fos = null;
+        try {
+            fos = getActivity().openFileOutput(FILE_NAME, Context.MODE_APPEND);
+            fos.write(text.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
