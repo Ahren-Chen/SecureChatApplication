@@ -108,6 +108,10 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
             return networkHandler.result();
         }
     }
+
+    public static Boolean createAccount(String username, String password, String authorityLevel) {
+        return true;
+    }
 }
 
 class NetworkHandler implements Runnable {
