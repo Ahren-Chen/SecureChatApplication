@@ -26,10 +26,10 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/CreateUsername"/>
+            app:layout_constraintBottom_toTopOf="@+id/editTextCreateAccountEmail"/>
 
         <EditText
-            android:id="@+id/CreateUsername"
+            android:id="@+id/editTextCreateAccountEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_CreateAccount"
             android:autofillHints="Enter email"
-            android:hint="@string/create_enter_username"/>
+            android:hint="@string/enter_email"/>
 
         <EditText
             android:id="@+id/editTextCreateAccountPass"
@@ -53,20 +53,17 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CreateUsername"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCreateAccountEmail"
             android:autofillHints="Enter password"
             android:hint="@string/enter_password"/>
 
-        <EditText
-            android:id="@+id/editTextNewSetAuthority"
+        <Spinner
+            android:id="@+id/editTextSetAuthority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:ems="10"
-            android:hint="@string/authority_level"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:minHeight="48dp"
+            android:layout_marginTop="50dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toTopOf="@+id/CreateAccountButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -83,7 +80,7 @@
             app:layout_constraintEnd_toStartOf="@+id/CreateAccountPreviousButton"
             app:layout_constraintHorizontal_bias="0.322"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNewSetAuthority" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextSetAuthority" />
 
         <Button
             android:id="@+id/CreateAccountPreviousButton"
@@ -95,7 +92,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.823"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNewSetAuthority"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSetAuthority"
             app:layout_constraintVertical_bias="0.0" />
 
 

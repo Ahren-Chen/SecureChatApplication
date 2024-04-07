@@ -108,7 +108,6 @@ public class AESUtil {
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-            System.out.println("IV: " + iv);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +129,6 @@ public class AESUtil {
         }
         Serializable unsealedObject;
         try {
-            System.out.println("IV decrypted: " + iv);
             unsealedObject = (Serializable) sealedObject.getObject(cipher);
         } catch (IOException | IllegalBlockSizeException | ClassNotFoundException e) {
             throw new RuntimeException(e);
