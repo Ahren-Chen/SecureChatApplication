@@ -115,6 +115,13 @@
         <action
             android:id="@+id/action_accountManagementFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+
+        <action
+            android:id="@+id/action_accountManagementFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
     </fragment>
     <fragment
         android:id="@+id/CreateAccountFragment"

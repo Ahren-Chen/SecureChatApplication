@@ -31,12 +31,12 @@ public class MessagesFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_messages, container, false);
+        binding = FragmentMessagesBinding.inflate(inflater, container, false);
 
-        editTextMessage = view.findViewById(R.id.editTextMessage);
-        textViewChat = view.findViewById(R.id.textViewChat);
-        buttonSend = view.findViewById(R.id.buttonSend);
-        spinnerChatWith = view.findViewById(R.id.spinnerChatWith);
+        editTextMessage = binding.getRoot().findViewById(R.id.editTextMessage);
+        textViewChat = binding.getRoot().findViewById(R.id.textViewChat);
+        buttonSend = binding.getRoot().findViewById(R.id.buttonSend);
+        spinnerChatWith = binding.getRoot().findViewById(R.id.spinnerChatWith);
 
         // Set up the adapter for the spinner
         ArrayList<String> users = new ArrayList<>();
@@ -63,7 +63,7 @@ public class MessagesFragment extends Fragment {
             }
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     private void sendMessage() {
