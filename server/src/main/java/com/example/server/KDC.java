@@ -1,7 +1,6 @@
 package com.example.server;
 
-import static com.example.server.SocketNames.AccountManagementSocket;
-import static com.example.server.SocketNames.KDCSocket;
+import static com.example.server.SocketNames.*;
 
 import com.example.server.EncryptionAES.AESUtil;
 import com.example.server.interfaces.KDCInterface;
@@ -12,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +20,6 @@ import java.util.Objects;
 import javax.crypto.BadPaddingException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 
 public class KDC implements KDCInterface {
     private static HashMap<String, SecretKey> sessionKeysDB;
