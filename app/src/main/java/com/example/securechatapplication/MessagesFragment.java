@@ -13,7 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.securechatapplication.databinding.FragmentMessagesBinding;
-
+import android.content.Context;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 public class MessagesFragment extends Fragment {
 
     private EditText editTextMessage;
@@ -21,7 +26,7 @@ public class MessagesFragment extends Fragment {
     private Button buttonSend;
     private Spinner spinnerChatWith;
     private FragmentMessagesBinding binding;
-
+    private static final String FILE_NAME = "chat_history.txt";
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
@@ -51,16 +56,34 @@ public class MessagesFragment extends Fragment {
         String message = editTextMessage.getText().toString().trim();
         String selectedContact = spinnerChatWith.getSelectedItem().toString();
         if (!message.isEmpty()) {
-            // Format and display the message
-            String formattedMessage = "Me to " + selectedContact + ": " + message + "\n";
+            String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+            String formattedMessage = currentTime + " - Me to " + selectedContact + ": " + message + "\n";
             textViewChat.append(formattedMessage);
 
-            // Clear the input field for the next message
+            appendToFile(formattedMessage);
+
             editTextMessage.setText("");
         }
     }
 
-
+    private void appendToFile(String text) {
+        FileOutputStream fos = null;
+        try {
+            fos = getActivity().openFileOutput(FILE_NAME, Context.MODE_APPEND);
+            fos.write(text.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
