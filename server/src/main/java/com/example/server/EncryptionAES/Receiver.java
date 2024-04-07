@@ -1,6 +1,4 @@
-package com.example.client;
-
-import com.example.server.EncryptionAES.AESUtil;
+package com.example.server.EncryptionAES;
 
 import javax.crypto.SecretKey;
 
