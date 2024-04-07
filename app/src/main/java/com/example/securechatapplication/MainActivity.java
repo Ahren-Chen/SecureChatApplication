@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
                 }
 
+                else if (currentFragmentId == R.id.accountManagementFragment) {
+                    navController.navigate(R.id.action_accountManagementFragment_to_MessagesFragment);
+                }
+
                 return true;
 
             }
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.action_MessagesFragment_to_HomeFragment);
                 }
 
+                else if (currentFragmentId == R.id.accountManagementFragment) {
+                    navController.navigate(R.id.action_accountManagementFragment_to_HomeFragment);
+                }
+
                 return true;
 
             }
@@ -88,6 +96,27 @@ public class MainActivity extends AppCompatActivity {
 
                 else if (currentFragmentId == R.id.MessagesFragment) {
                     navController.navigate(R.id.action_MessagesFragment_to_CallingFragment);
+                }
+
+                else if (currentFragmentId == R.id.accountManagementFragment) {
+                    navController.navigate(R.id.action_accountManagementFragment_to_CallingFragment);
+                }
+
+                return true;
+            }
+
+            else if (item.getItemId() == R.id.MessagesFragment) {
+                int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+                if (currentFragmentId == R.id.HomeFragment) {
+                    navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId == R.id.CallingFragment) {
+                    navController.navigate(R.id.action_CallingFragment_to_MessagesFragment);
+                }
+
+                else if (currentFragmentId == R.id.accountManagementFragment) {
+                    navController.navigate(R.id.action_accountManagementFragment_to_MessagesFragment);
                 }
 
                 return true;
