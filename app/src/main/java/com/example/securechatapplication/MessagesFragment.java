@@ -53,7 +53,7 @@ public class MessagesFragment extends Fragment {
             requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
             requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
             NavHostFragment.findNavController(MessagesFragment.this)
-                    .navigate(R.id.action_CallingFragment_to_LoginFragment);
+                    .navigate(R.id.action_MessagesFragment_to_LoginFragment);
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
