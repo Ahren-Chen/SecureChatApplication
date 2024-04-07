@@ -84,7 +84,7 @@ class KDCRequestHandler implements Runnable {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            // Read input from slave
+            // Read input from MAP
             Request message = (Request) in.readObject();
             System.out.println("Request from MAP: " + message.getType().toString());
 
@@ -135,6 +135,21 @@ class KDCRequestHandler implements Runnable {
                 this.username = message.getUsername();
                 out.writeObject(KDCResponse);
                 System.out.println("Sent response to MAP");
+            }
+
+            else if (message.getType() == RequestTypes.getAllUsers) {
+
+                //TODO LATER
+                /*try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
+                    ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
+                    ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
+
+
+                    //Request the stored secretKey made from password for user
+                    Request getAccountSecretKey = new Request(RequestTypes.getUserSecretKey, message.getUsername());
+                    accountOut.writeObject(getAccountSecretKey);
+                    System.out.println("Sent request to Account Management");
+                }*/
             }
 
             // Close streams and socket

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -45,12 +46,41 @@ public class MediatedAuthenticationProtocol extends MAPInterface {
             return false;
         }
     }
+
+    public static ArrayList<HashMap<String, String>> getAllUsers(String username) {
+        Request request = new Request(RequestTypes.getAllUsers, username);
+
+        SecretKey sessionKey = userKeys.get("sessionKey");
+        if (sessionKey == null) {
+            throw new RuntimeException("No session key");
+        }
+
+        //Sending the request and handling the feedback in a thread because Android doesn't want me to do
+        //this on the main thread.
+        NetworkHandler networkHandler = new NetworkHandler(request);
+        Thread t = new Thread(networkHandler);
+        t.start();
+
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted execution: " + e);
+        }
+
+        if (networkHandler.result()) {
+            return networkHandler.getUsers();
+        }
+        else {
+            return null;
+        }
+    }
 }
 
 class NetworkHandler implements Runnable {
     private final Request request;
     private final String password;
     private final String username;
+    private ArrayList<HashMap<String, String>> users;
     private boolean success = false;
     private SecretKey sessionKey = null;
     public NetworkHandler(Request request) {
@@ -112,7 +142,7 @@ class NetworkHandler implements Runnable {
             System.out.println("No key received");
             this.success = false;
         }
-        else {
+        else if (request.getType() == RequestTypes.login){
             //Decrypt the key and store it
             SecretKey passwordSecretKey = AESUtil.getKeyFromPassword(this.password, this.password);
             try {
@@ -124,6 +154,20 @@ class NetworkHandler implements Runnable {
                 this.success = false;
             }
         }
+        else if (request.getType() == RequestTypes.getAllUsers) {
+            try {
+
+                @SuppressWarnings("unchecked")
+                ArrayList<HashMap<String, String>> unencryptedPackage = (ArrayList<HashMap<String, String>>)
+                        AESUtil.decryptObject(encryptedPackage, sessionKey);
+
+                this.users = unencryptedPackage;
+                this.success = true;
+
+            } catch (BadPaddingException e) {
+                throw new RuntimeException("Session key is wrong for decryption");
+            }
+        }
     }
 
     public SecretKey getSessionKey() {
@@ -132,5 +176,9 @@ class NetworkHandler implements Runnable {
 
     public boolean result() {
         return this.success;
+    }
+
+    public ArrayList<HashMap<String, String>> getUsers() {
+        return users;
     }
 }
