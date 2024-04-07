@@ -12,7 +12,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentMessagesBinding;
+import com.example.server.TimeOutException;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class MessagesFragment extends Fragment {
 
@@ -32,9 +39,21 @@ public class MessagesFragment extends Fragment {
         spinnerChatWith = view.findViewById(R.id.spinnerChatWith);
 
         // Set up the adapter for the spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.chat_contacts, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayList<String> users = new ArrayList<>();
+        try {
+            users = MediatedAuthenticationProtocol.getAllUsers();
+            if (users == null) {
+                throw new RuntimeException("No users returned");
+            }
+        } catch (TimeOutException e) {
+            requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
+            requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
+            NavHostFragment.findNavController(MessagesFragment.this)
+                    .navigate(R.id.action_MessagesFragment_to_LoginFragment);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                binding.getRoot().getContext(), android.R.layout.simple_spinner_dropdown_item, users);
         spinnerChatWith.setAdapter(adapter);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
