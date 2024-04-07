@@ -10,6 +10,7 @@ import com.example.server.RequestTypes;
 
 import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -50,8 +51,14 @@ public class AESTest {
         SecretKey key = AESUtil.generateKey();
         SealedObject sealedObject = AESUtil.encryptObject(
                 request, key);
-        Request object = (Request) AESUtil.decryptObject(
-                sealedObject, key);
+
+        Request object;
+        try {
+            object = (Request) AESUtil.decryptObject(
+                    sealedObject, key);
+        } catch (BadPaddingException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(request.getType(), object.getType());
         assertEquals(request.getUsername(), object.getUsername());
         assertEquals(request.getKey(), object.getKey());

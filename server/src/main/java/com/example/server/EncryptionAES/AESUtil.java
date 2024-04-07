@@ -120,7 +120,7 @@ public class AESUtil {
     }
 
     public static Serializable decryptObject(SealedObject sealedObject,
-                                             SecretKey key){
+                                             SecretKey key) throws BadPaddingException{
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -132,7 +132,7 @@ public class AESUtil {
         try {
             System.out.println("IV decrypted: " + iv);
             unsealedObject = (Serializable) sealedObject.getObject(cipher);
-        } catch (IOException | IllegalBlockSizeException | ClassNotFoundException | BadPaddingException e) {
+        } catch (IOException | IllegalBlockSizeException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return unsealedObject;

@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentLoginBinding;
+
+import kotlin.NotImplementedError;
 
 public class LoginFragment extends Fragment {
 
@@ -39,15 +42,10 @@ public class LoginFragment extends Fragment {
             EditText passwordInput = binding.getRoot().findViewById(R.id.login_enter_password);
             String password = passwordInput.getText().toString();
 
-            //TO DO, COMMUNICATE WITH KDC TO AUTHENTICATE LOGIN
-
-           // if (MediatedAuthenticationProtocol.authenticateLogin(username, password)) {
+            if (MediatedAuthenticationProtocol.authenticateLogin(username, password)) {
                 NavHostFragment.findNavController(LoginFragment.this)
                         .navigate(R.id.action_LoginFragment_to_HomeFragment);
-            //}
-           // else {
-               // throw new NotImplementedError();
-           // }
+            }
         });
     }
 
