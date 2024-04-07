@@ -5,6 +5,12 @@
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <!-- 在 res/values/strings.xml 中 -->
+    <string-array name="chat_contacts">
+        <item>User 1</item>
+        <item>User 2</item>
+        <!-- 可以继续添加更多用户 -->
+    </string-array>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
