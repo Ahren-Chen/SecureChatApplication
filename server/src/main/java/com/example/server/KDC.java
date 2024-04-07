@@ -101,7 +101,7 @@ class KDCRequestHandler implements Runnable {
             Request message = (Request) in.readObject();
             System.out.println("Request from MAP: " + message.getType());
 
-            // Process input (e.g., perform some task)
+            // For logging in
             if (message.getType() == RequestTypes.login) {
                 SecretKey sessionKey = AESUtil.generateKey();
                 username = message.getUsername();
@@ -151,6 +151,7 @@ class KDCRequestHandler implements Runnable {
                 System.out.println("Sent response to MAP, logging in: " + this.success);
             }
 
+            // For any other request
             else if (message.getType() == null) {
                 SecretKey sessionKey = sessionKeyDB.get(message.getUsername());
                 Date date = new Date();
@@ -165,6 +166,7 @@ class KDCRequestHandler implements Runnable {
                 //For testing, sometimes it is set to 2 seconds
                 if (date.getTime() - keyTimeStamp < 7.2 * Math.pow(10, 6)) {
                 //if (date.getTime() - keyTimeStamp < 2000) {
+
                     SealedObject encryptedType = message.getObj();
 
                     RequestTypes unencryptedType;
@@ -174,6 +176,7 @@ class KDCRequestHandler implements Runnable {
                         throw new RuntimeException(e);
                     }
 
+                    // If request is getting all users
                     if (unencryptedType == RequestTypes.getAllUsers) {
                         try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
                             ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
@@ -199,6 +202,42 @@ class KDCRequestHandler implements Runnable {
                                 SealedObject encryptedUsers = AESUtil.encryptObject(accountUsers, sessionKey);
 
                                 KDCResponse = new Response(encryptedUsers, message.getUsername());
+                                success = true;
+                            }
+                            accountIn.close();
+                            accountOut.close();
+                        }
+                    }
+
+                    //If request is checking user authorization for account creation and deletion
+                    else if (unencryptedType == RequestTypes.accountCreateOrDeleteCheck) {
+                        try (Socket accountManagementSocket = new Socket(InetAddress.getLocalHost().getHostAddress(), AccountManagementSocket.getValue())) {
+                            ObjectOutputStream accountOut = new ObjectOutputStream(accountManagementSocket.getOutputStream());
+                            ObjectInputStream accountIn = new ObjectInputStream(accountManagementSocket.getInputStream());
+
+                            //Send request to account management
+                            Request getAccountSecretKey = new Request(RequestTypes.accountCreateOrDeleteCheck, message.getUsername());
+                            accountOut.writeObject(getAccountSecretKey);
+                            System.out.println("Sent request to Account Management");
+
+                            //Get response
+                            Response accountResponse = null;
+                            while (accountResponse == null) {
+                                accountResponse = (Response) accountIn.readObject();
+                            }
+
+                            if (Objects.equals(accountResponse.getUsername(), "User not found")) {
+                                KDCResponse = new Response((SealedObject) null, message.getUsername());
+                                success = false;
+                            } else {
+                                System.out.println("Received response from Account Management");
+                                Boolean authorized = accountResponse.getAuthorized();
+                                if (authorized == null) {
+                                    throw new RuntimeException("Error in confirming authorization");
+                                }
+                                SealedObject encryptedAuthorization = AESUtil.encryptObject(authorized, sessionKey);
+
+                                KDCResponse = new Response(encryptedAuthorization, message.getUsername());
                                 success = true;
                             }
                             accountIn.close();

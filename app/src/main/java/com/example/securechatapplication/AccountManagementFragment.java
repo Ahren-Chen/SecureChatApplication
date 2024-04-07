@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentAccountManagementBinding;
+import com.example.server.TimeOutException;
 
 public class AccountManagementFragment extends Fragment {
 
@@ -36,15 +38,33 @@ public class AccountManagementFragment extends Fragment {
         super.onViewCreated(myView, savedInstance);
 
         //Navigation to Create Acct Menu
-        binding.buttonCreateAccount.setOnClickListener(view1 -> NavHostFragment.findNavController(AccountManagementFragment.this)
-                .navigate(R.id.action_accountManagementFragment_to_CreateAccountFragment));
+        binding.buttonCreateAccount.setOnClickListener(v -> {
+            try {
+                if (MediatedAuthenticationProtocol.accountCreationOrDeletionCheck()) {
+                    NavHostFragment.findNavController(AccountManagementFragment.this)
+                            .navigate(R.id.action_accountManagementFragment_to_CreateAccountFragment);
+                }
+            } catch (TimeOutException e) {
+                NavHostFragment.findNavController(AccountManagementFragment.this)
+                        .navigate(R.id.action_accountManagementFragment_to_LoginFragment);
+            }
+        });
 
         //Navigation to Edit Acct
-        binding.buttonEditAccount.setOnClickListener(view1 -> NavHostFragment.findNavController(AccountManagementFragment.this)
+        binding.buttonEditAccount.setOnClickListener(v -> NavHostFragment.findNavController(AccountManagementFragment.this)
                 .navigate(R.id.action_accountManagementFragment_to_EditAccountFragment));
 
-        binding.buttonDeleteAccount.setOnClickListener(view1 -> NavHostFragment.findNavController(AccountManagementFragment.this)
-                .navigate(R.id.action_accountManagementFragment_to_DeleteAccountFragment));
+        binding.buttonDeleteAccount.setOnClickListener(v -> {
+            try {
+                if (MediatedAuthenticationProtocol.accountCreationOrDeletionCheck()) {
+                    NavHostFragment.findNavController(AccountManagementFragment.this)
+                            .navigate(R.id.action_accountManagementFragment_to_DeleteAccountFragment);
+                }
+            } catch (TimeOutException e) {
+                NavHostFragment.findNavController(AccountManagementFragment.this)
+                        .navigate(R.id.action_accountManagementFragment_to_LoginFragment);
+            }
+        });
     }
 
     @Override

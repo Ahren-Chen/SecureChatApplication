@@ -124,6 +124,7 @@ public class AccountManagement implements AccountManagementInterface {
                         message = (Request) in.readObject();
                     }
 
+                    //If message request was getting a users secret key made from password
                     if (message.getType() == RequestTypes.getUserSecretKey) {
                         String username = message.getUsername();
                         System.out.println("Received request for secret key from " + username);
@@ -148,6 +149,8 @@ public class AccountManagement implements AccountManagementInterface {
                             }
                         }
                     }
+
+                    //If the request was getting all usernames
                     else if (message.getType() == RequestTypes.getAllUsers) {
                         System.out.println("Request received to get all usernames");
 
@@ -159,6 +162,26 @@ public class AccountManagement implements AccountManagementInterface {
                         }
 
                         out.writeObject(new Response(users, message.getUsername()));
+                    }
+
+                    //If the request was seeing if a user is authorized to add/delete accounts
+                    else if (message.getType() == RequestTypes.accountCreateOrDeleteCheck) {
+                        System.out.println("Request received to check authorization level");
+
+                        String username = message.getUsername();
+                        Boolean authorized = false;
+
+                        for (HashMap<String, String> account : accounts) {
+                            if (Objects.equals(account.get("username"), username)) {
+                                if (Objects.equals(account.get("authorityLevel"), "CEO")
+                                        || Objects.equals(account.get("authorityLevel"), "Manager")) {
+                                    authorized = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        out.writeObject(new Response(authorized, username));
                     }
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);

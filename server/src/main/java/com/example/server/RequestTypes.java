@@ -4,4 +4,5 @@ public enum RequestTypes {
     login,
     getUserSecretKey,
     getAllUsers,
+    accountCreateOrDeleteCheck,
 }

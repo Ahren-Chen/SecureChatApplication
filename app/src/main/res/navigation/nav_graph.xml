@@ -112,6 +112,9 @@
         <action
             android:id="@+id/action_accountManagementFragment_to_DeleteAccountFragment"
             app:destination="@id/DeleteAccountFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/CreateAccountFragment"
