@@ -97,23 +97,26 @@ class NetworkHandler implements Runnable {
             encryptedSessionKey = response.getObj();
             username = response.getUsername();
 
-            if (encryptedSessionKey == null) {
-                throw new RuntimeException("Response contains nulls from KDC");
-            }
-            else if (!Objects.equals(username, this.username)) {
-                throw new RuntimeException("Response to incorrect user");
-            }
-
         } catch (IOException exception) {
             throw new RuntimeException("Critical Error: " + exception);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        //Decrypt the key and store it
-        SecretKey passwordSecretKey = AESUtil.getKeyFromPassword(this.password, this.password);
-        this.sessionKey = (SecretKey) AESUtil.decryptObject(encryptedSessionKey, passwordSecretKey);
-        this.success = true;
+        if (!Objects.equals(username, this.username)) {
+            this.success = false;
+            System.out.println("Sent to wrong user");
+        }
+        else if (encryptedSessionKey == null) {
+            System.out.println("No key received");
+            this.success = false;
+        }
+        else {
+            //Decrypt the key and store it
+            SecretKey passwordSecretKey = AESUtil.getKeyFromPassword(this.password, this.password);
+            this.sessionKey = (SecretKey) AESUtil.decryptObject(encryptedSessionKey, passwordSecretKey);
+            this.success = true;
+        }
     }
 
     public SecretKey getSessionKey() {

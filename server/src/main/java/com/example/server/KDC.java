@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.Key;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
@@ -53,7 +54,7 @@ public class KDC implements KDCInterface {
                     SecretKey newKey = requestHandler.getNewKey();
                     Long timeStamp = requestHandler.getNewKeyTimeStamp();
                     String username = requestHandler.getUsername();
-                    if (newKey != null && username != null) {
+                    if (newKey != null && username != null && requestHandler.isSuccess()) {
                         HashMap<SecretKey, Long> allUserKeys = keysDB.get(username);
                         allUserKeys.put(newKey, timeStamp);
                     }
@@ -72,6 +73,7 @@ class KDCRequestHandler implements Runnable {
     private SecretKey newKey;
     private Long newKeyTimeStamp;
     private String username;
+    private boolean success = false;
     public KDCRequestHandler(Socket socket) {
         this.socket = socket;
     }
@@ -107,12 +109,20 @@ class KDCRequestHandler implements Runnable {
                     while (accountResponse == null) {
                         accountResponse = (Response) accountIn.readObject();
                     }
-                    System.out.println("Received response from Account Management");
-                    SecretKey accountSecretKey = accountResponse.getKey();
 
-                    //Encrypt the session key with password secret key
-                    SealedObject encryptedKDCKey = AESUtil.encryptObject(sessionKey, accountSecretKey);
-                    KDCResponse = new Response(encryptedKDCKey, message.getUsername());
+                    if (Objects.equals(accountResponse.getUsername(), "User not found")) {
+                        KDCResponse = new Response((SecretKey) null, message.getUsername());
+                        success = false;
+                    }
+                    else {
+                        System.out.println("Received response from Account Management");
+                        SecretKey accountSecretKey = accountResponse.getKey();
+
+                        //Encrypt the session key with password secret key
+                        SealedObject encryptedKDCKey = AESUtil.encryptObject(sessionKey, accountSecretKey);
+                        KDCResponse = new Response(encryptedKDCKey, message.getUsername());
+                        success = true;
+                    }
                     accountIn.close();
                     accountOut.close();
                 }
@@ -146,5 +156,9 @@ class KDCRequestHandler implements Runnable {
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isSuccess() {
+        return success;
     }
 }
