@@ -6,6 +6,10 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <Spinner
+        android:id="@+id/spinnerChatWith"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -35,6 +39,7 @@
         android:layout_weight="1"
         android:hint="@string/Enter_Message"
         android:inputType="text"/>
+
 
 </LinearLayout>
 
