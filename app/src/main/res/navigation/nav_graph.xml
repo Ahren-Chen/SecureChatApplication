@@ -43,6 +43,7 @@
         <action
             android:id="@+id/action_MessagesFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+
         <action
             android:id="@+id/action_MessagesFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
@@ -69,6 +70,7 @@
         <action
             android:id="@+id/action_CallingFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+
         <action
             android:id="@+id/action_CallingFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
@@ -121,6 +123,7 @@
         <action
             android:id="@+id/action_accountManagementFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+
         <action
             android:id="@+id/action_accountManagementFragment_to_MessagesFragment"
             app:destination="@id/MessagesFragment" />
