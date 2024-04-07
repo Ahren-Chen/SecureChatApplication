@@ -16,7 +16,7 @@
         android:title="@string/Home_Title"
         android:enabled="true"/>
     <item
-        android:id="@+id/account_nav"
+        android:id="@+id/accountManagementFragment"
         android:icon="@mipmap/account"
         android:title="@string/Account"
         android:enabled="true"/>

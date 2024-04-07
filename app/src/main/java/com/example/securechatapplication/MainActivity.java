@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
 
-            else if (item.getItemId() == R.id.MessagesFragment) {
+            /*else if (item.getItemId() == R.id.MessagesFragment) {
                 int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
                 if (currentFragmentId == R.id.HomeFragment) {
                     navController.navigate(R.id.action_HomeFragment_to_MessagesFragment);
@@ -117,6 +117,23 @@ public class MainActivity extends AppCompatActivity {
 
                 else if (currentFragmentId == R.id.accountManagementFragment) {
                     navController.navigate(R.id.action_accountManagementFragment_to_MessagesFragment);
+                }
+
+                return true;
+            }*/
+
+            else if (item.getItemId() == R.id.accountManagementFragment) {
+                int currentFragmentId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+                if (currentFragmentId == R.id.HomeFragment) {
+                    navController.navigate(R.id.action_HomeFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId == R.id.CallingFragment) {
+                    navController.navigate(R.id.action_CallingFragment_to_accountManagementFragment);
+                }
+
+                else if (currentFragmentId == R.id.MessagesFragment) {
+                    navController.navigate(R.id.action_MessagesFragment_to_accountManagementFragment);
                 }
 
                 return true;

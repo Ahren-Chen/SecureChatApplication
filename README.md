@@ -43,3 +43,5 @@ The final group project for 3A04. Designing a prototype for a secure chat applic
 9. Run `java com/example/server/AccountManagement` on the new gitbash
 
 10. Open the project in Android Studio, create an emulator in device manager, run module SecureChatApplication.app.main
+
+# When making APK: password is 'admin1'

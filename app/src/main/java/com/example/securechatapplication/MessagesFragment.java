@@ -12,11 +12,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.securechatapplication.MAP.MediatedAuthenticationProtocol;
 import com.example.securechatapplication.databinding.FragmentMessagesBinding;
+import com.example.server.TimeOutException;
+
 import android.content.Context;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 public class MessagesFragment extends Fragment {
@@ -29,17 +35,29 @@ public class MessagesFragment extends Fragment {
     private static final String FILE_NAME = "chat_history.txt";
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_messages, container, false);
+        binding = FragmentMessagesBinding.inflate(inflater, container, false);
 
-        editTextMessage = view.findViewById(R.id.editTextMessage);
-        textViewChat = view.findViewById(R.id.textViewChat);
-        buttonSend = view.findViewById(R.id.buttonSend);
-        spinnerChatWith = view.findViewById(R.id.spinnerChatWith);
+        editTextMessage = binding.getRoot().findViewById(R.id.editTextMessage);
+        textViewChat = binding.getRoot().findViewById(R.id.textViewChat);
+        buttonSend = binding.getRoot().findViewById(R.id.buttonSend);
+        spinnerChatWith = binding.getRoot().findViewById(R.id.spinnerChatWith);
 
         // Set up the adapter for the spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.chat_contacts, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayList<String> users = new ArrayList<>();
+        try {
+            users = MediatedAuthenticationProtocol.getAllUsers();
+            if (users == null) {
+                throw new RuntimeException("No users returned");
+            }
+        } catch (TimeOutException e) {
+            requireActivity().findViewById(R.id.bottom_navigation_bar).setVisibility(View.GONE);
+            requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
+            NavHostFragment.findNavController(MessagesFragment.this)
+                    .navigate(R.id.action_CallingFragment_to_LoginFragment);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                binding.getRoot().getContext(), android.R.layout.simple_spinner_dropdown_item, users);
         spinnerChatWith.setAdapter(adapter);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +67,7 @@ public class MessagesFragment extends Fragment {
             }
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     private void sendMessage() {
