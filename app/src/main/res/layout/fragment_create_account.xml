@@ -26,10 +26,10 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/editTextCreateAccountEmail"/>
+            app:layout_constraintBottom_toTopOf="@+id/CreateUsername"/>
 
         <EditText
-            android:id="@+id/editTextCreateAccountEmail"
+            android:id="@+id/CreateUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_CreateAccount"
             android:autofillHints="Enter email"
-            android:hint="@string/enter_email"/>
+            android:hint="@string/create_enter_username"/>
 
         <EditText
             android:id="@+id/editTextCreateAccountPass"
@@ -53,12 +53,12 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCreateAccountEmail"
+            app:layout_constraintTop_toBottomOf="@+id/CreateUsername"
             android:autofillHints="Enter password"
             android:hint="@string/enter_password"/>
 
         <EditText
-            android:id="@+id/editTextSetAuthority"
+            android:id="@+id/editTextNewSetAuthority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -83,7 +83,7 @@
             app:layout_constraintEnd_toStartOf="@+id/CreateAccountPreviousButton"
             app:layout_constraintHorizontal_bias="0.322"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSetAuthority" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextNewSetAuthority" />
 
         <Button
             android:id="@+id/CreateAccountPreviousButton"
@@ -95,7 +95,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.823"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSetAuthority"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNewSetAuthority"
             app:layout_constraintVertical_bias="0.0" />
 
 

@@ -5,7 +5,6 @@ import static com.example.server.SocketNames.AccountManagementSocket;
 import com.example.server.EncryptionAES.AESUtil;
 import com.example.server.interfaces.AccountManagementInterface;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -59,12 +58,14 @@ public class AccountManagement implements AccountManagementInterface {
     }
 
     public boolean editAccount(String oldName, String newName, String newPass, String newAuth) {
+
         for (HashMap<String, String> h : accounts) {
             if (h.containsValue(newName) && !(newName.equals(oldName))) {
                 System.out.println("Name is taken by another user!");
                 return false;
             }
         }
+
         for (HashMap<String, String> h : accounts) {
 
             SecretKey userSecretKey = AESUtil.getKeyFromPassword(newPass, newPass);
@@ -76,12 +77,15 @@ public class AccountManagement implements AccountManagementInterface {
                 h.replace("authorityLevel", newAuth);
                 return true;
             }
+
+
         }
+
         System.out.println("Error updating user info");
         return false;
     }
 
-    public static void main(String[] args) {
+    public void start() {
         accounts = new ArrayList<>();
 
         HashMap<String, String> user1 = new HashMap<>();

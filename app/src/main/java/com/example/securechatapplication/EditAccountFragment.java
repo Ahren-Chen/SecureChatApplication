@@ -1,19 +1,18 @@
 package com.example.securechatapplication;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.securechatapplication.databinding.FragmentAccountManagementBinding;
-import com.example.securechatapplication.databinding.FragmentCallBinding;
-import com.example.securechatapplication.databinding.FragmentCreateAccountBinding;
 import com.example.securechatapplication.databinding.FragmentEditAccountBinding;
-import com.example.securechatapplication.databinding.FragmentHomeBinding;
+import com.example.server.AccountManagement;
 
 public class EditAccountFragment extends Fragment{
 
@@ -36,11 +35,36 @@ public class EditAccountFragment extends Fragment{
     }
     public void onViewCreated(@NonNull View myView, Bundle savedInstance){
         super.onViewCreated(myView, savedInstance);
-
+        AccountManagement accounts = new AccountManagement();
+        accounts.start();
         //Previous button to navigate back to Account MGMT menu
         binding.CreateAccountPreviousButton.setOnClickListener(view1 -> NavHostFragment.findNavController(EditAccountFragment.this)
                 .navigate(R.id.action_EditAccountFragment_to_accountManagementFragment));
 
+
+        binding.EditConfirmButton.setOnClickListener(go ->{
+            EditText oldusernameText = binding.getRoot().findViewById(R.id.editTextCurrentAccountEmail);
+            String oldName = oldusernameText.getText().toString();
+
+            EditText usernameText = binding.getRoot().findViewById(R.id.editTextEditAccountEmail);
+            String username = usernameText.getText().toString();
+
+            EditText passText = binding.getRoot().findViewById(R.id.editTextEditAccountPass);
+            String password = passText.getText().toString();
+
+            EditText authText = binding.getRoot().findViewById(R.id.editTextEditSetAuthority);
+            String authority = authText.getText().toString();
+
+            if((TextUtils.isEmpty(oldName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(authority)) ||TextUtils.isEmpty(username)){
+                NavHostFragment.findNavController(EditAccountFragment.this)
+                        .navigate(R.id.action_EditAccountFragment_to_ResponseFailureFragment);
+            }
+            else{
+                accounts.editAccount(oldName,username,password,authority);
+                NavHostFragment.findNavController(EditAccountFragment.this)
+                        .navigate(R.id.action_EditAccountFragment_to_ResponseSuccessFragment);
+            }
+        });
     }
     @Override
     public void onDestroyView() {

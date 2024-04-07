@@ -9,12 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.securechatapplication.databinding.FragmentAccountManagementBinding;
-import com.example.securechatapplication.databinding.FragmentCallBinding;
-import com.example.securechatapplication.databinding.FragmentCreateAccountBinding;
 import com.example.securechatapplication.databinding.FragmentDeleteAccountBinding;
-import com.example.securechatapplication.databinding.FragmentEditAccountBinding;
-import com.example.securechatapplication.databinding.FragmentHomeBinding;
+import com.example.server.AccountManagement;
 
 public class DeleteAccountFragment extends Fragment{
     private FragmentDeleteAccountBinding binding;
@@ -38,11 +34,24 @@ public class DeleteAccountFragment extends Fragment{
 
     public void onViewCreated(@NonNull View myView, Bundle savedInstance){
         super.onViewCreated(myView, savedInstance);
+        AccountManagement accounts = new AccountManagement();
 
         //Previous button to navigate back to Account MGMT menu
         binding.DeleteAccountPreviousButton.setOnClickListener(view1 -> NavHostFragment.findNavController(DeleteAccountFragment.this)
                 .navigate(R.id.action_DeleteAccountFragment_to_accountManagementFragment));
 
+
+        binding.DeleteAccountButton.setOnClickListener(go ->{
+
+            if(accounts.deleteAccount(null)){//to do?
+                NavHostFragment.findNavController(DeleteAccountFragment.this)
+                        .navigate(R.id.action_DeleteAccountFragment_to_ResponseSuccessFragment);
+            }
+            else{
+                NavHostFragment.findNavController(DeleteAccountFragment.this)
+                        .navigate(R.id.action_DeleteAccountFragment_to_ResponseFailureFragment);
+            }
+        });
     }
     @Override
     public void onDestroyView() {

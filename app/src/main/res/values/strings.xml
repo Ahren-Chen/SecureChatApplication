@@ -85,4 +85,13 @@
 
     <string name="Send">Send</string>
     <string name="Enter_Message">Enter Message</string>
+    <string name="create_enter_username">Enter username</string>
+    <string name="successMessage">Success</string>
+    <string name="defaultmessageplaceholder">DefaultMessage</string>
+    <string name="messageresponsehome">Home</string>
+    <string name="old_username">Old username</string>
+    <string name="editaccountsuccess">The account was edited.</string>
+    <string name="error">Error</string>
+    <string name="the_old_username_was_not_found_or_the_new_name_was_taken">The old username was not found, or the new name was taken.</string>
+    <string name="an_error_occured">An error occured.</string>
 </resources>

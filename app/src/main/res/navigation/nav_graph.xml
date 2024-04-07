@@ -122,6 +122,12 @@
         <action
             android:id="@+id/action_CreateAccountFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_CreateAccountFragment_to_ResponseSuccessFragment"
+            app:destination="@id/ResponseSuccessFragment" />
+        <action
+            android:id="@+id/action_CreateAccountFragment_to_ResponseFailureFragment"
+            app:destination="@id/ResponseFailureFragment" />
     </fragment>
 
     <fragment
@@ -133,6 +139,12 @@
         <action
             android:id="@+id/action_EditAccountFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_EditAccountFragment_to_ResponseSuccessFragment"
+            app:destination="@id/ResponseSuccessFragment" />
+        <action
+            android:id="@+id/action_EditAccountFragment_to_ResponseFailureFragment"
+            app:destination="@id/ResponseFailureFragment" />
     </fragment>
 
     <fragment
@@ -144,6 +156,36 @@
         <action
             android:id="@+id/action_DeleteAccountFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_DeleteAccountFragment_to_ResponseSuccessFragment"
+            app:destination="@id/ResponseSuccessFragment" />
+        <action
+            android:id="@+id/action_DeleteAccountFragment_to_ResponseFailureFragment"
+            app:destination="@id/ResponseFailureFragment" />
+        <action
+            android:id="@+id/action_DeleteAccountFragment_to_ResponseFailureFragment2"
+            app:destination="@id/ResponseFailureFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ResponseSuccessFragment"
+        android:name="com.example.securechatapplication.ResponseSuccessFragment"
+        android:label="ResponseSuccessFragment"
+        tools:layout="@layout/fragment_response_success"
+        >
+        <action
+            android:id="@+id/action_ResponseSuccessFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ResponseFailureFragment"
+        android:name="com.example.securechatapplication.ResponseFailureFragment"
+        android:label="ResponseFailureFragment"
+        tools:layout="@layout/fragment_response_failure"
+        >
+        <action
+            android:id="@+id/action_ResponseFailureFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
     </fragment>
 
 </navigation>
