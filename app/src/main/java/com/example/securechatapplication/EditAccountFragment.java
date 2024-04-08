@@ -36,7 +36,6 @@ public class EditAccountFragment extends Fragment{
     public void onViewCreated(@NonNull View myView, Bundle savedInstance){
         super.onViewCreated(myView, savedInstance);
         AccountManagement accounts = new AccountManagement();
-        accounts.start();
         //Previous button to navigate back to Account MGMT menu
         binding.CreateAccountPreviousButton.setOnClickListener(view1 -> NavHostFragment.findNavController(EditAccountFragment.this)
                 .navigate(R.id.action_EditAccountFragment_to_accountManagementFragment));

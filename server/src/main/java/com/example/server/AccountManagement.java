@@ -85,7 +85,7 @@ public class AccountManagement implements AccountManagementInterface {
         return false;
     }
 
-    public void start() {
+    public static void main(String[] args) {
         accounts = new ArrayList<>();
 
         HashMap<String, String> user1 = new HashMap<>();
