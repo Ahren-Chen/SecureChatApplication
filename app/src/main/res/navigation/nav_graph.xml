@@ -6,6 +6,30 @@
     app:startDestination="@id/LoginFragment">
 
     <fragment
+        android:id="@+id/SurveyFragment"
+        android:name="com.example.securechatapplication.SurveyFragment"
+        android:label="@string/Survey"
+        tools:layout="@layout/fragment_survey"
+        >
+
+        <action
+            android:id="@+id/action_SurveyFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_SurveyFragment_to_MessagesFragment"
+            app:destination="@id/MessagesFragment" />
+        <action
+            android:id="@+id/action_SurveyFragment_to_HomeFragment2"
+            app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_SurveyFragment_to_accountManagementFragment"
+            app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_SurveyFragment_to_CallingFragment"
+            app:destination="@id/CallingFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/HomeFragment"
         android:name="com.example.securechatapplication.HomeFragment"
         android:label="@string/Home_Title"
@@ -25,6 +49,12 @@
         <action
             android:id="@+id/action_HomeFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_SurveyFragment"
+            app:destination="@id/SurveyFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_SurveyFragment2"
+            app:destination="@id/SurveyFragment" />
     </fragment>
     <fragment
         android:id="@+id/MessagesFragment"
@@ -47,6 +77,12 @@
         <action
             android:id="@+id/action_MessagesFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_MessagesFragment_to_SurveyFragment"
+            app:destination="@id/SurveyFragment" />
+        <action
+            android:id="@+id/action_MessagesFragment_to_SurveyFragment2"
+            app:destination="@id/SurveyFragment" />
     </fragment>
 
     <fragment
@@ -74,6 +110,9 @@
         <action
             android:id="@+id/action_CallingFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_CallingFragment_to_SurveyFragment"
+            app:destination="@id/SurveyFragment" />
     </fragment>
 
     <fragment
@@ -85,6 +124,9 @@
         <action
             android:id="@+id/action_CallingSomeoneFragment_to_CallingFragment"
             app:destination="@id/CallingFragment" />
+        <action
+            android:id="@+id/action_CallingPersonFragment_to_SurveyFragment"
+            app:destination="@id/SurveyFragment" />
 
     </fragment>
 
@@ -136,6 +178,9 @@
         <action
             android:id="@+id/action_accountManagementFragment_self"
             app:destination="@id/accountManagementFragment" />
+        <action
+            android:id="@+id/action_accountManagementFragment_to_SurveyFragment"
+            app:destination="@id/SurveyFragment" />
     </fragment>
     <fragment
         android:id="@+id/CreateAccountFragment"
@@ -259,5 +304,7 @@
             android:id="@+id/action_ResponseFailureFragment_to_accountManagementFragment"
             app:destination="@id/accountManagementFragment" />
     </fragment>
+
+
 
 </navigation>

@@ -11,6 +11,16 @@
         <item>User 2</item>
         <!-- 可以继续添加更多用户 -->
     </string-array>
+    <string name="SurveyHeader">Company Feedback Survey</string>
+    <string name="SurveyIntroMessage">For each question, enter a number between 1–10</string>
+    <string name="SurveyQuestion1">How would you rate the company\'s working environment?</string>
+    <string name="SurveyQuestion2">How would you rate the company\'s work life balance?</string>
+    <string name="SurveyQuestion3">How would you rate your interactions with your colleagues?</string>
+    <string name="SurveyQuestion4">How would you rate your experience with this app this month?</string>
+    <string name="SubmitSurvey">Submit</string>
+    <string name="ExitSurvey">Exit</string>
+    <string name="InputDescription">Number from 1–10</string>
+    <string name="HintExample">Example: 10</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
