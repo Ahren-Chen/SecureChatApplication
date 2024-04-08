@@ -78,7 +78,6 @@ public class AccountManagement implements AccountManagementInterface {
                 return true;
             }
 
-
         }
 
         System.out.println("Error updating user info");
@@ -128,7 +127,7 @@ public class AccountManagement implements AccountManagementInterface {
                         message = (Request) in.readObject();
                     }
 
-                    //If message request was getting a users secret key made from password
+                    // If message request was getting a users secret key made from password
                     if (message.getType() == RequestTypes.getUserSecretKey) {
                         String username = message.getUsername();
                         System.out.println("Received request for secret key from " + username);
@@ -149,12 +148,12 @@ public class AccountManagement implements AccountManagementInterface {
 
                             if (!found) {
                                 System.out.println("User not found");
-                                out.writeObject(new Response((SecretKey)null, "User not found"));
+                                out.writeObject(new Response((SecretKey) null, "User not found"));
                             }
                         }
                     }
 
-                    //If the request was getting all usernames
+                    // If the request was getting all usernames
                     else if (message.getType() == RequestTypes.getAllUsers) {
                         System.out.println("Request received to get all usernames");
 
@@ -168,7 +167,7 @@ public class AccountManagement implements AccountManagementInterface {
                         out.writeObject(new Response(users, message.getUsername()));
                     }
 
-                    //If the request was seeing if a user is authorized to add/delete accounts
+                    // If the request was seeing if a user is authorized to add/delete accounts
                     else if (message.getType() == RequestTypes.accountCreateOrDeleteCheck) {
                         System.out.println("Request received to check authorization level");
 
