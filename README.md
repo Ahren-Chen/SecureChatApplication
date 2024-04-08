@@ -29,7 +29,7 @@ The final group project for 3A04. Designing a prototype for a secure chat applic
 17. Run `./sdkmanager system-images;android-34;google_apis;x86_64`
 18. Run `avdmanager create avd --name android34 --package "system-images;android-34;google_apis;x86_64"` and use default settings
 19. Run `emulator -avd android34`
-20. Navigate to where the apk file is stored and run `abd install app-release.apk`
+20. Navigate to where the apk file is stored (Default is SecureChatApplication/app/release), copy it over to `cmdline-tools`, navigate over there and run `abd install app-release.apk`
 
 # Alternate way to run:
 1. Ensure that Java JDK version 8 or higher is installed. run `java -version` and see that it is "1.8.____"
@@ -43,5 +43,7 @@ The final group project for 3A04. Designing a prototype for a secure chat applic
 9. Run `java com/example/server/AccountManagement` on the new gitbash
 
 10. Open the project in Android Studio, create an emulator in device manager, run module SecureChatApplication.app.main
+
+All of the above references: https://medium.com/@yohan.ardiansyah90/how-to-run-android-emulator-for-development-without-android-studio-f0e73682af3a
 
 # When making APK: password is 'admin1'

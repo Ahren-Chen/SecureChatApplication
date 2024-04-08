@@ -21,7 +21,7 @@
         android:title="@string/Account"
         android:enabled="true"/>
     <item
-        android:id="@+id/survey_nav"
+        android:id="@+id/SurveyFragment"
         android:icon="@mipmap/survey"
         android:title="@string/Survey"
         android:enabled="true"/>
